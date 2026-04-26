@@ -108,6 +108,9 @@
             </header>
 
             <div class="content-area">
+                @if (session('ok'))
+                    <p style="color:#16a34a; margin-bottom:12px;">{{ session('ok') }}</p>
+                @endif
                 <section id="productListView">
                     <div class="heading-row">
                         <div>
@@ -115,7 +118,7 @@
                             <p id="inventorySummary">Manage all products in your catalog.</p>
                         </div>
                         <button class="btn btn-primary" type="button" id="openAddProductBtn">
-                            <span aria-hidden="true">
+                            <span>
                                 <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/></svg>
                             </span>
                             Add New Product
@@ -150,7 +153,59 @@
                                         <th class="actions-th">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="productTableBody"></tbody>
+                                <tbody id="productTableBody">
+                                    @forelse ($products as $product)
+                                        <tr>
+                                            <td>
+                                                <div class="product-cell">
+                                                    @if (!empty($product->image))
+                                                        <img class="product-img" src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}">
+                                                    @endif
+                                                    <span class="product-info">
+                                                        <strong class="product-name">{{ $product->name }}</strong>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td><span class="cell-meta">{{ $product->category ?? "Women's Wear" }}</span></td>
+                                            <td><strong class="cell-price">${{ number_format((float) $product->price, 2) }}</strong></td>
+                                            <td>
+                                                @if ($product->in_stock)
+                                                    <span class="badge badge-success">In Stock</span>
+                                                @else
+                                                    <span class="badge badge-destructive">Out of Stock</span>
+                                                @endif
+                                            </td>
+                                            <td class="actions-td">
+                                                <button
+                                                    class="btn-icon"
+                                                    type="button"
+                                                    aria-label="Edit item"
+                                                    data-action="edit"
+                                                    data-id="{{ $product->id }}"
+                                                    data-name="{{ $product->name }}"
+                                                    data-price="{{ $product->price }}"
+                                                    data-stock="{{ $product->stock ?? 0 }}"
+                                                    data-category="{{ $product->category ?? "Women's Wear" }}"
+                                                    data-on-sale="{{ ($product->on_sale ?? false) ? '1' : '0' }}"
+                                                    data-image-url="{{ !empty($product->image) ? asset('storage/'.$product->image) : '' }}"
+                                                >
+                                                    <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M3 17.25V21h3.75l11-11.03l-3.75-3.75zM20.7 7.04a1 1 0 0 0 0-1.41L18.37 3.3a1 1 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z"/></svg>
+                                                </button>
+                                                <form method="post" action="{{ route('admin.products.delete', $product) }}" style="display:inline-block;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn-icon btn-icon-danger" type="submit" aria-label="Delete item" onclick="return confirm('Delete this item?')">
+                                                        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M6 7h12l-1 14H7zm3-3h6l1 2H8z"/></svg>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="empty-row">No products found in database.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
                             </table>
                         </div>
 
@@ -181,8 +236,9 @@
                         </div>
                     </div>
 
-                    <form id="productEditorForm" novalidate>
-                        <input type="hidden" id="productId" name="productId">
+                    <form id="productEditorForm" method="post" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" novalidate>
+                        @csrf
+                        <input type="hidden" id="productId" name="product_id">
                         <div class="editor-grid">
                             <div class="editor-main-col">
                                 <section class="panel editor-panel">
@@ -190,7 +246,7 @@
 
                                     <div class="form-group">
                                         <label for="productName">Product Name</label>
-                                        <input class="input-field" id="productName" name="productName" type="text" required>
+                                        <input class="input-field" id="productName" name="name" type="text" required>
                                     </div>
 
                                     <div class="form-group">
@@ -201,11 +257,11 @@
                                     <div class="field-row">
                                         <div class="form-group">
                                             <label for="productPrice">Price ($)</label>
-                                            <input class="input-field" id="productPrice" name="productPrice" type="number" min="0" step="0.01" required>
+                                            <input class="input-field" id="productPrice" name="price" type="number" min="0" step="0.01" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="productStock">Stock</label>
-                                            <input class="input-field" id="productStock" name="productStock" type="number" min="0" step="1" required>
+                                            <input class="input-field" id="productStock" name="stock" type="number" min="0" step="1" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="productSku">SKU</label>
@@ -228,17 +284,33 @@
                                 <section class="panel editor-panel">
                                     <h3 class="editor-panel__title">Product Image</h3>
                                     <img id="productImagePreview" class="product-preview" src="" alt="Product preview">
+
+
                                     <div class="form-group">
-                                        <label for="productImage">Image URL</label>
-                                        <input class="input-field" id="productImage" name="productImage" type="url" placeholder="https://example.com/image.jpg">
+                                        <label for="productImage">Product Image</label>
+                                        <div class="upload-box">
+                                            <input id="productImage" name="image" type="file" accept="image/*" class="upload-input">
+                                            <label for="productImage" class="upload-label">
+                                                <strong style="color:white;">Choose image</strong>
+                                            </label>
+                                        </div>
                                     </div>
+                                    <label class="admin-check">
+                                        <input type="checkbox" id="removeImage" name="remove_image" value="1">
+                                        <span>Remove current image</span>
+                                    </label>
                                 </section>
 
                                 <section class="panel editor-panel">
                                     <h3 class="editor-panel__title">Category &amp; Status</h3>
                                     <div class="form-group">
                                         <label for="productCategory">Category</label>
-                                        <select class="input-field" id="productCategory" name="productCategory"></select>
+                                        <select class="input-field" id="productCategory" name="category">
+                                            <option value="Women's Wear">Women's Wear</option>
+                                            <option value="Men's Wear">Men's Wear</option>
+                                            <option value="Accessories">Accessories</option>
+                                            <option value="Shoes">Shoes</option>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="productStatus">Status</label>
@@ -249,6 +321,10 @@
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
+                                    <label class="admin-check">
+                                        <input type="checkbox" id="productSale" name="on_sale" value="1">
+                                        <span>Sale</span>
+                                    </label>
                                 </section>
                             </div>
                         </div>
@@ -258,7 +334,6 @@
         </main>
     </div>
 
-    <script src="{{ asset('js/product-store.js') }}"></script>
     <script src="{{ asset('js/admin-products.js') }}"></script>
 </body>
 </html>

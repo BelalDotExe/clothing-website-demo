@@ -8,11 +8,7 @@ if (menuToggle && nav) {
     });
 }
 
-const store = window.auraProductStore;
-
-if (!store) {
-    throw new Error("Product store is required before category.js");
-}
+const dbProducts = Array.isArray(window.auraProducts) ? window.auraProducts : [];
 
 const PLACEHOLDER_IMAGE =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 800'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23d8d8c7'/%3E%3Cstop offset='1' stop-color='%23f4f4e8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='600' height='800' fill='url(%23g)'/%3E%3Cpath d='M162 560l92-118l80 104l40-54l104 128H122z' fill='%23c3c3b1'/%3E%3Ccircle cx='252' cy='296' r='54' fill='%23c9c9b8'/%3E%3C/svg%3E";
@@ -24,7 +20,6 @@ const elements = {
     count: document.getElementById("gridCount"),
     sort: document.getElementById("sortBy"),
     grid: document.getElementById("productGrid"),
-    saleNavLink: document.getElementById("saleNavLink"),
 };
 
 const state = {
@@ -42,19 +37,8 @@ function escapeHtml(value) {
 }
 
 function formatPrice(product) {
-    const hasDiscount = store.hasDiscount(product);
-
-    if (!hasDiscount) {
-        return `<p class="aura-card__price">${escapeHtml(store.formatCurrency(product.price))}</p>`;
-    }
-
-    const discounted = store.calculateDiscountedPrice(product);
-    return `
-        <div class="aura-price-row">
-            <p class="aura-card__price aura-card__price--accent">${escapeHtml(store.formatCurrency(discounted))}</p>
-            <p class="aura-strike">${escapeHtml(store.formatCurrency(product.price))}</p>
-        </div>
-    `;
+    const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+    return `<p class="aura-card__price">${escapeHtml(formatter.format(Number(product.price) || 0))}</p>`;
 }
 
 function stockMeta(product) {
@@ -73,17 +57,25 @@ function stockMeta(product) {
 
 function getImageUrl(product) {
     const image = typeof product.image === "string" ? product.image.trim() : "";
-    return image || PLACEHOLDER_IMAGE;
+    if (!image) {
+        return PLACEHOLDER_IMAGE;
+    }
+
+    if (image.startsWith("http://") || image.startsWith("https://") || image.startsWith("data:") || image.startsWith("/storage/")) {
+        return image;
+    }
+
+    return `/storage/${image}`;
 }
 
 function productCard(product) {
-    const hasDiscount = store.hasDiscount(product);
+    const hasDiscount = Boolean(product.on_sale);
     const soldOut = Number(product.stock) <= 0;
 
     return `
         <article class="aura-card">
             <div class="aura-img">
-                ${hasDiscount ? `<span class="aura-badge aura-badge--sale">-${escapeHtml(product.discountPercentage)}%</span>` : ""}
+                ${hasDiscount ? `<span class="aura-badge aura-badge--sale">Sale</span>` : ""}
                 <img class="aura-img__media" src="${escapeHtml(getImageUrl(product))}" alt="${escapeHtml(product.name)}">
             </div>
             <div class="aura-card__body">
@@ -102,30 +94,24 @@ function productCard(product) {
 }
 
 function getProductsForActiveTab() {
-    const allProducts = store.getProducts();
-
     if (state.activeCategory === "Sale") {
-        return allProducts.filter((product) => store.hasDiscount(product));
+        return dbProducts.filter((product) => Boolean(product.on_sale));
     }
 
-    return allProducts.filter((product) => product.category === state.activeCategory);
+    return dbProducts.filter((product) => product.category === state.activeCategory);
 }
 
 function sortProducts(products) {
     const list = [...products];
 
     if (state.sortBy === "price-asc") {
-        list.sort(
-            (left, right) =>
-                store.calculateDiscountedPrice(left) - store.calculateDiscountedPrice(right)
-        );
+        list.sort((left, right) => Number(left.price || 0) - Number(right.price || 0));
     } else if (state.sortBy === "price-desc") {
-        list.sort(
-            (left, right) =>
-                store.calculateDiscountedPrice(right) - store.calculateDiscountedPrice(left)
-        );
+        list.sort((left, right) => Number(right.price || 0) - Number(left.price || 0));
     } else if (state.sortBy === "name-asc") {
         list.sort((left, right) => left.name.localeCompare(right.name));
+    } else {
+        list.sort((left, right) => Number(right.id || 0) - Number(left.id || 0));
     }
 
     return list;
@@ -171,20 +157,17 @@ elements.tabs.forEach((pill) => {
     });
 });
 
-elements.sort.addEventListener("change", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLSelectElement)) {
-        return;
-    }
+if (elements.sort) {
+    elements.sort.addEventListener("change", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLSelectElement)) {
+            return;
+        }
 
-    state.sortBy = target.value;
-    render();
-});
-
-elements.saleNavLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    setActiveTab("Sale");
-});
+        state.sortBy = target.value;
+        render();
+    });
+}
 
 elements.grid.addEventListener("click", (event) => {
     const target = event.target;
@@ -206,10 +189,6 @@ elements.grid.addEventListener("click", (event) => {
             button.disabled = false;
         }
     }, 1000);
-});
-
-window.addEventListener("aura:products-updated", () => {
-    render();
 });
 
 if (window.location.hash.toLowerCase() === "#sale") {

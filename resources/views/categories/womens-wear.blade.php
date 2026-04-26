@@ -26,7 +26,7 @@
                 <a class="aura-nav__link" href="/">Home</a>
                 <a class="aura-nav__link aura-nav__link--active" href="/categories/womens-wear" aria-current="page">Categories</a>
                 <a class="aura-nav__link" href="#">New Arrivals</a>
-                <a class="aura-nav__link" href="#sale" id="saleNavLink">Sale</a>
+                
             </nav>
 
             <div class="aura-actions" aria-label="Quick actions">
@@ -93,7 +93,9 @@
         <section class="aura-grid" aria-label="Product grid" id="productGrid"></section>
     </main>
 
-    <script src="{{ asset('js/product-store.js') }}"></script>
+    <script>
+        window.auraProducts = @json($products);
+    </script>
     <script src="{{ asset('js/category.js') }}"></script>
 </body>
 </html>

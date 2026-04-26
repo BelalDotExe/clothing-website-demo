@@ -37,7 +37,6 @@
                     <a class="lp-nav__link lp-nav__link--active" href="/" aria-current="page">Home</a>
                     <a class="lp-nav__link" href="/categories/womens-wear">Categories</a>
                     <a class="lp-nav__link" href="#">New Arrivals</a>
-                    <a class="lp-nav__link lp-nav__link--sale" href="/categories/womens-wear#sale">Sale</a>
                 </nav>
 
                 <div class="lp-actions" aria-label="Quick actions">

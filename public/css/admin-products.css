@@ -475,6 +475,49 @@ body.dashboard-page {
     display: inline-block;
 }
 
+.upload-box {
+    position: relative;
+    width: 100%;
+    min-height: 40px;
+}
+
+.upload-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.upload-label {
+    min-height: 40px;
+
+    background: #8b9a05;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #fff ;
+    text-align: center;
+    padding: 16px;
+    border-radius: 10px;
+}
+
+.upload-note {
+    font-size: 12px;
+
+}
+
+.upload-box:hover .upload-label {
+    background-color: #879509;
+
+}
+
+
+
 .product-info {
     display: flex;
     flex-direction: column;

@@ -88,6 +88,7 @@ a {
 
 .lp-nav__link {
     font-weight: 600;
+    color: var(--text);
 }
 
 .lp-nav__link--active {
@@ -128,6 +129,7 @@ a {
 
 .lp-cart {
     position: relative;
+    color: var(--brand-dark);
 }
 
 .lp-cart__dot {
@@ -142,6 +144,7 @@ a {
 }
 
 .hero {
+    margin-top: 18px;
     display: grid;
     grid-template-columns: 1fr 1.1fr;
     gap: 20px;
@@ -248,7 +251,8 @@ a {
 
 .overlay a {
     font-size: 13px;
-    text-decoration: underline;
+    text-decoration: none;
+    color: #fff;
 }
 
 .trend-section {
@@ -269,6 +273,7 @@ a {
 }
 
 .product-media {
+    position: relative;
     min-height: 170px;
     margin-bottom: 8px;
 }
@@ -310,6 +315,20 @@ a {
     background: #ffe6e5;
     color: var(--alert);
     font-weight: 700;
+}
+
+.tag.new {
+    background: #eff3e3;
+    color: #6a7d2a;
+    font-weight: 700;
+}
+
+.product-media .tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    margin-bottom: 0;
+    z-index: 2;
 }
 
 @media (max-width: 980px) {

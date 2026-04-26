@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chroma - Wear Your True Colors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
+
 </head>
+
 <body>
     <div class="site-wrap">
         <header class="lp-header">
             <div class="container lp-header__inner">
                 <a href="/" class="lp-brand" aria-label="Home">
-                    <span class="lp-brand__mark" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="20" height="20" role="img" aria-hidden="true">
-                            <path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/>
+                    <span class="lp-brand__mark">
+                        {{-- logo --}}
+                        <svg viewBox="0 0 24 24" width="20" height="20" role="img">
+                            <path fill="currentColor"
+                                d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z" />
                         </svg>
                     </span>
                     <span class="lp-brand__name">CHROMA</span>
                 </a>
 
-                <button class="lp-menu-toggle" id="auraMenuToggle" type="button" aria-expanded="false" aria-controls="auraNav">
+                <button class="lp-menu-toggle" id="auraMenuToggle" type="button" aria-expanded="false"
+                    aria-controls="auraNav">
                     Menu
                 </button>
 
@@ -31,21 +41,12 @@
                 </nav>
 
                 <div class="lp-actions" aria-label="Quick actions">
-                    <button class="lp-icon-btn" type="button" aria-label="Search">
-                        <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true">
-                            <path fill="currentColor" d="M10 4a6 6 0 1 1 3.74 10.7l4.78 4.78-1.42 1.42-4.78-4.78A6 6 0 0 1 10 4zm0 2a4 4 0 1 0 0 8a4 4 0 0 0 0-8z"/>
-                        </svg>
-                    </button>
-                    <button class="lp-icon-btn" type="button" aria-label="Account">
-                        <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true">
-                            <path fill="currentColor" d="M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/>
-                        </svg>
+
+                    <button class="lp-icon-btn" type="button" aria-label="Account" >
+                       <a href="/admin/login"> <i style="font-size:20px;" class="fa-regular fa-user" ></i></a>
                     </button>
                     <button class="lp-icon-btn lp-cart" type="button" aria-label="Cart">
-                        <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true">
-                            <path fill="currentColor" d="M7 6h14l-2 9H8L6.6 2H3v2h2l2.2 11h12.3l2.6-11H7V6zm2 16a2 2 0 1 1 0-4a2 2 0 0 1 0 4zm10 0a2 2 0 1 1 0-4a2 2 0 0 1 0 4z"/>
-                        </svg>
-                        <span class="lp-cart__dot" aria-hidden="true"></span>
+                        <i style="font-size:20px;" class="fa-solid fa-cart-shopping"></i>
                     </button>
                 </div>
             </div>
@@ -53,10 +54,10 @@
 
         <main>
             <section class="hero container">
-                <div class="hero-copy">
+                <div class="hero-copy" >
                     <span class="eyebrow">SPRING COLLECTION 2025</span>
-                    <h1>Wear Your True Colors</h1>
-                    <p>
+                    <h1 style=" font-family: 'Smooch Sans', sans-serif; font-optical-sizing: auto;margin-top: 20px;" >Wear Your True Colors</h1>
+                    <p style="margin-top: 40px;">
                         Discover our latest collection of vibrant modern apparel
                         designed to make a statement. Bold silhouettes meet bold palettes.
                     </p>
@@ -68,7 +69,7 @@
             </section>
 
             <section class="container section">
-                <h2 class="section-title">Shop by Category</h2>
+                <h2 class="section-title" style=" font-family: 'Smooch Sans', sans-serif; font-optical-sizing: auto; font-size: 50px;">Shop by Category</h2>
                 <div class="category-grid">
                     <article class="category-card">
                         <div class="placeholder-block"><span>Womenswear image</span></div>
@@ -95,11 +96,14 @@
             </section>
 
             <section class="container section trend-section">
-                <h2 class="section-title">Trending Now</h2>
+                <h2 class="section-title" style=" font-family: 'Smooch Sans', sans-serif; font-optical-sizing: auto; font-size: 50px;">Trending Now</h2>
                 <div class="product-grid">
                     <article class="product-card">
-                        <div class="tag">NEW</div>
-                        <div class="placeholder-block product-media"><span>Product image</span></div>
+                        <div class="placeholder-block product-media">
+                            <span>Product image</span>
+                            <div class="tag new">NEW</div>
+                        </div>
+
                         <h3>Amber Sunset Jacket</h3>
                         <p class="price">$120.38</p>
                         <button type="button" class="add-cart-btn">Add to Cart</button>
@@ -111,8 +115,10 @@
                         <button type="button" class="add-cart-btn">Add to Cart</button>
                     </article>
                     <article class="product-card">
-                        <div class="tag low">LOW STOCK</div>
-                        <div class="placeholder-block product-media"><span>Product image</span></div>
+                        <div class="placeholder-block product-media">
+                            <span>Product image</span>
+                            <div class="tag low">LOW STOCK</div>
+                        </div>
                         <h3>Olive Urban Tee</h3>
                         <p class="price">$45.78</p>
                         <button type="button" class="add-cart-btn">Add to Cart</button>
@@ -129,5 +135,7 @@
     </div>
 
     <script src="{{ asset('js/landing.js') }}"></script>
+
 </body>
+
 </html>

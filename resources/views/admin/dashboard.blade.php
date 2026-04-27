@@ -64,12 +64,15 @@
             </div>
 
             <div class="sidebar-footer">
-                <a class="nav-item nav-item--logout" href="/admin/login">
-                    <span class="nav-item__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="m16 17l1.41-1.41L14.83 13H21v-2h-6.17l2.58-2.59L16 7l-5 5zm-10 3h8v2H6a2 2 0 0 1-2-2V4c0-1.1.9-2 2-2h8v2H6z"/></svg>
-                    </span>
-                    Log Out
-                </a>
+                <form method="post" action="{{ route('admin.logout') }}">
+                    @csrf
+                    <button class="nav-item nav-item--logout" type="submit" style="width:100%; border:0; background:transparent; text-align:left; cursor:pointer;">
+                        <span class="nav-item__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="m16 17l1.41-1.41L14.83 13H21v-2h-6.17l2.58-2.59L16 7l-5 5zm-10 3h8v2H6a2 2 0 0 1-2-2V4c0-1.1.9-2 2-2h8v2H6z"/></svg>
+                        </span>
+                        Log Out
+                    </button>
+                </form>
             </div>
         </aside>
 
@@ -281,4 +284,3 @@
     <script src="{{ asset('js/admin-dashboard.js') }}"></script>
 </body>
 </html>
-

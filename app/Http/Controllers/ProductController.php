@@ -27,7 +27,38 @@ class ProductController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'product_id' => ['nullable', 'integer', 'exists:products,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'stock' => ['required', 'integer', 'min:0'],
+            'category' => ['required', 'string', 'in:'.implode(',', self::CATEGORIES)],
+            'on_sale' => ['nullable', 'boolean'],
+            'in_stock' => ['nullable', 'boolean'],
+            'image' => ['nullable', 'image', 'max:5120'],
+        ]);
+
+        $stock = (int) ($data['stock'] ?? 0);
+        $inStock = $stock > 0;
+        $payload = [
+            'name' => $data['name'],
+            'price' => $data['price'],
+            'stock' => $stock,
+            'category' => $data['category'],
+            'on_sale' => (bool) ($data['on_sale'] ?? false),
+            'in_stock' => $inStock,
+        ];
+
+        if ($request->hasFile('image')) {
+            $payload['image'] = $request->file('image')->store('products', 'public');
+        }
+
+        Product::create($payload);
+
+        return redirect()->route('admin.products')->with('ok', 'Product added successfully.');
+    }
+
+    public function update(Request $request, Product $product): RedirectResponse
+    {
+        $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
@@ -49,30 +80,19 @@ class ProductController extends Controller
             'in_stock' => $inStock,
         ];
 
-        $product = null;
-        if (!empty($data['product_id'])) {
-            $product = Product::find($data['product_id']);
-        }
-
         if ($request->hasFile('image')) {
-            if ($product && !empty($product->image)) {
+            if (!empty($product->image)) {
                 Storage::disk('public')->delete($product->image);
             }
             $payload['image'] = $request->file('image')->store('products', 'public');
-        } elseif (($data['remove_image'] ?? false) && $product && !empty($product->image)) {
+        } elseif (($data['remove_image'] ?? false) && !empty($product->image)) {
             Storage::disk('public')->delete($product->image);
             $payload['image'] = null;
         }
 
-        if ($product) {
-            $product->update($payload);
+        $product->update($payload);
 
-            return redirect()->route('admin.products')->with('ok', 'Product updated successfully.');
-        }
-
-        Product::create($payload);
-
-        return redirect()->route('admin.products')->with('ok', 'Product added successfully.');
+        return redirect()->route('admin.products')->with('ok', 'Product updated successfully.');
     }
 
     public function delete(Product $product): RedirectResponse

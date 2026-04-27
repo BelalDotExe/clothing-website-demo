@@ -37,16 +37,22 @@
                     <p>Enter your credentials to access the dashboard.</p>
                 </header>
 
-                <form class="admin-form" action="/admin/dashboard" method="get" novalidate>
+                @if ($errors->has('login'))
+                    <p class="admin-error-banner">{{ $errors->first('login') }}</p>
+                @endif
+
+                <!-- ================= form begins ============================= -->
+                <form class="admin-form" action="{{ route('admin.login.post') }}" method="post" novalidate>
+                    @csrf
                     <div class="admin-field">
                         <label for="username">Username</label>
                         <div class="admin-input-wrap">
-                            <span class="admin-input-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" width="18" height="18" role="img" aria-hidden="true">
+                            <span class="admin-input-icon" >
+                                <svg viewBox="0 0 24 24" width="18" height="18" role="img" >
                                     <path fill="currentColor" d="M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/>
                                 </svg>
                             </span>
-                            <input id="username" name="username" type="text" autocomplete="username" placeholder="Enter username">
+                            <input id="username" name="username" type="text" autocomplete="username" placeholder="Enter username" value="{{ old('username') }}">
                         </div>
                     </div>
 
@@ -55,7 +61,7 @@
                             <label for="password">Password</label>
                         </div>
                         <div class="admin-input-wrap">
-                            <span class="admin-input-icon" aria-hidden="true">
+                            <span class="admin-input-icon" >
                                 <svg viewBox="0 0 24 24" width="18" height="18" role="img" aria-hidden="true">
                                     <path fill="currentColor" d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2zm-7-2a2 2 0 0 1 4 0v2h-4V6z"/>
                                 </svg>
@@ -69,23 +75,20 @@
                         </div>
                     </div>
 
-                    <label class="admin-check">
-                        <input type="checkbox" name="remember">
-                        <span>Remember me for 30 days</span>
-                    </label>
-
                     <button class="admin-submit" type="submit">
                         Log In to Dashboard
-                        <span aria-hidden="true">
-                            <svg viewBox="0 0 24 24" width="18" height="18" role="img" aria-hidden="true">
+                        <span>
+                            <svg viewBox="0 0 24 24" width="18" height="18" role="img">
                                 <path fill="currentColor" d="M13 5l7 7l-7 7l-1.4-1.4l4.6-4.6H4v-2h12.2l-4.6-4.6z"/>
                             </svg>
                         </span>
                     </button>
                 </form>
 
+                <!--================== form ends here =============== -->
+
                 <footer class="admin-footer-note">
-                    &copy; 2024 Aura Clothing Store. All rights reserved.
+                    &copy; 2026 Aura Clothing Store. All rights reserved.
                 </footer>
             </div>
         </section>
@@ -94,4 +97,3 @@
     <script src="{{ asset('js/admin-login.js') }}"></script>
 </body>
 </html>
-

@@ -62,12 +62,15 @@
             </div>
 
             <div class="sidebar-footer">
-                <a class="nav-item nav-item--logout" href="/admin/login">
-                    <span class="nav-item__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="m16 17l1.41-1.41L14.83 13H21v-2h-6.17l2.58-2.59L16 7l-5 5zm-10 3h8v2H6a2 2 0 0 1-2-2V4c0-1.1.9-2 2-2h8v2H6z"/></svg>
-                    </span>
-                    Log Out
-                </a>
+                <form method="post" action="{{ route('admin.logout') }}">
+                    @csrf
+                    <button class="nav-item nav-item--logout" type="submit" style="width:100%; border:0; background:transparent; text-align:left; cursor:pointer;">
+                        <span class="nav-item__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="m16 17l1.41-1.41L14.83 13H21v-2h-6.17l2.58-2.59L16 7l-5 5zm-10 3h8v2H6a2 2 0 0 1-2-2V4c0-1.1.9-2 2-2h8v2H6z"/></svg>
+                        </span>
+                        Log Out
+                    </button>
+                </form>
             </div>
         </aside>
 
@@ -194,7 +197,7 @@
                                                 <form method="post" action="{{ route('admin.products.delete', $product) }}" style="display:inline-block;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn-icon btn-icon-danger" type="submit" aria-label="Delete item" onclick="return confirm('Delete this item?')">
+                                                    <button class="btn-icon btn-icon-danger" type="submit" onclick="return confirm('Delete this item?')">
                                                         <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M6 7h12l-1 14H7zm3-3h6l1 2H8z"/></svg>
                                                     </button>
                                                 </form>
@@ -236,8 +239,9 @@
                         </div>
                     </div>
 
-                    <form id="productEditorForm" method="post" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" novalidate>
+                    <form id="productEditorForm" method="post" action="{{ route('admin.products.store') }}" data-store-action="{{ route('admin.products.store') }}" data-update-action-template="{{ url('/admin/products/__ID__') }}" enctype="multipart/form-data" novalidate>
                         @csrf
+                        <input type="hidden" id="productFormMethod" name="_method" value="PUT" disabled>
                         <input type="hidden" id="productId" name="product_id">
                         <div class="editor-grid">
                             <div class="editor-main-col">
@@ -295,10 +299,10 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <label class="admin-check">
+                                    <!-- <label class="admin-check">
                                         <input type="checkbox" id="removeImage" name="remove_image" value="1">
                                         <span>Remove current image</span>
-                                    </label>
+                                    </label> -->
                                 </section>
 
                                 <section class="panel editor-panel">

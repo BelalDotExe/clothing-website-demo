@@ -6,6 +6,7 @@ const addButton = document.getElementById("openAddProductBtn");
 const backButton = document.getElementById("editorBackBtn");
 const cancelButton = document.getElementById("editorCancelBtn");
 const form = document.getElementById("productEditorForm");
+const productFormMethod = document.getElementById("productFormMethod");
 const productStock = document.getElementById("productStock");
 const productId = document.getElementById("productId");
 const productName = document.getElementById("productName");
@@ -16,6 +17,62 @@ const productImage = document.getElementById("productImage");
 const productImagePreview = document.getElementById("productImagePreview");
 const removeImage = document.getElementById("removeImage");
 const tableBody = document.getElementById("productTableBody");
+const editorTitle = document.getElementById("editorTitle");
+const editorSubtitle = document.getElementById("editorSubtitle");
+
+const storeAction =
+    form instanceof HTMLFormElement ? form.dataset.storeAction || form.action : "";
+const updateActionTemplate =
+    form instanceof HTMLFormElement ? form.dataset.updateActionTemplate || "" : "";
+
+function setCreateMode() {
+    if (!(form instanceof HTMLFormElement)) {
+        return;
+    }
+
+    form.action = storeAction;
+
+    if (productFormMethod instanceof HTMLInputElement) {
+        productFormMethod.disabled = true;
+    }
+
+    if (editorTitle) {
+        editorTitle.textContent = "Add New Product";
+    }
+
+    if (editorSubtitle) {
+        editorSubtitle.textContent = "Create a new product item in your catalog.";
+    }
+}
+
+function setEditMode(productData) {
+    if (!(form instanceof HTMLFormElement)) {
+        return;
+    }
+
+    const productKey = (productData.id || "").trim();
+    if (!productKey || !updateActionTemplate) {
+        return;
+    }
+
+    form.action = updateActionTemplate.replace(
+        "__ID__",
+        encodeURIComponent(productKey)
+    );
+
+    if (productFormMethod instanceof HTMLInputElement) {
+        productFormMethod.disabled = false;
+        productFormMethod.value = "PUT";
+    }
+
+    if (editorTitle) {
+        editorTitle.textContent = "Edit Product";
+    }
+
+    if (editorSubtitle) {
+        editorSubtitle.textContent = `Update details for ${productData.name || "this product"}`;
+    }
+}
 
 if (sidebar && toggleButton) {
     toggleButton.addEventListener("click", () => {
@@ -42,6 +99,7 @@ function openEditor() {
     }
 
     form.reset();
+    setCreateMode();
     if (productId instanceof HTMLInputElement) {
         productId.value = "";
     }
@@ -86,6 +144,10 @@ if (form) {
 
         if (productStock instanceof HTMLInputElement) {
             const stockValue = Number(productStock.value || 0);
+            const existingInStockInput = form.querySelector("input[name='in_stock']");
+            if (existingInStockInput) {
+                existingInStockInput.remove();
+            }
             const inStockInput = document.createElement("input");
             inStockInput.type = "hidden";
             inStockInput.name = "in_stock";
@@ -129,32 +191,44 @@ if (tableBody) {
             return;
         }
 
+        const productData = {
+            id: editButton.dataset.id || "",
+            name: editButton.dataset.name || "",
+            price: editButton.dataset.price || "",
+            stock: editButton.dataset.stock || "0",
+            category: editButton.dataset.category || "Women's Wear",
+            onSale: editButton.dataset.onSale || "0",
+            imageUrl: editButton.dataset.imageUrl || "",
+        };
+
+        setEditMode(productData);
+
         if (productId instanceof HTMLInputElement) {
-            productId.value = editButton.dataset.id || "";
+            productId.value = productData.id;
         }
 
         if (productName instanceof HTMLInputElement) {
-            productName.value = editButton.dataset.name || "";
+            productName.value = productData.name;
         }
 
         if (productPrice instanceof HTMLInputElement) {
-            productPrice.value = editButton.dataset.price || "";
+            productPrice.value = productData.price;
         }
 
         if (productStock instanceof HTMLInputElement) {
-            productStock.value = editButton.dataset.stock || "0";
+            productStock.value = productData.stock;
         }
 
         if (productCategory instanceof HTMLSelectElement) {
-            productCategory.value = editButton.dataset.category || "Women's Wear";
+            productCategory.value = productData.category;
         }
 
         if (productSale instanceof HTMLInputElement) {
-            productSale.checked = (editButton.dataset.onSale || "0") === "1";
+            productSale.checked = productData.onSale === "1";
         }
 
         if (productImagePreview instanceof HTMLImageElement) {
-            productImagePreview.src = editButton.dataset.imageUrl || "";
+            productImagePreview.src = productData.imageUrl;
         }
 
         if (productImage instanceof HTMLInputElement) {

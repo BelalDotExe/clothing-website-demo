@@ -37,7 +37,7 @@ function escapeHtml(value) {
 }
 
 function formatPrice(product) {
-    const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+    const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "PKR" });
     return `<p class="aura-card__price">${escapeHtml(formatter.format(Number(product.price) || 0))}</p>`;
 }
 
@@ -69,7 +69,7 @@ function getImageUrl(product) {
 }
 
 function productCard(product) {
-    const hasDiscount = Boolean(product.on_sale);
+    const hasDiscount = Boolean(product.on_sale) || Boolean(product.discount) >=1 ;
     const soldOut = Number(product.stock) <= 0;
 
     return `

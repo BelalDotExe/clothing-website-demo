@@ -189,7 +189,7 @@
                                                     data-price="{{ $product->price }}"
                                                     data-stock="{{ $product->stock ?? 0 }}"
                                                     data-category="{{ $product->category ?? "Women's Wear" }}"
-                                                    data-on-sale="{{ ($product->on_sale ?? false) ? '1' : '0' }}"
+                                                    data-discount="{{ $product->discount ?? 0 }}"
                                                     data-image-url="{{ !empty($product->image) ? asset('storage/'.$product->image) : '' }}"
                                                 >
                                                     <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M3 17.25V21h3.75l11-11.03l-3.75-3.75zM20.7 7.04a1 1 0 0 0 0-1.41L18.37 3.3a1 1 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z"/></svg>
@@ -239,6 +239,7 @@
                         </div>
                     </div>
 
+                    <!-- ============ form begins here ==================== -->
                     <form id="productEditorForm" method="post" action="{{ route('admin.products.store') }}" data-store-action="{{ route('admin.products.store') }}" data-update-action-template="{{ url('/admin/products/__ID__') }}" enctype="multipart/form-data" novalidate>
                         @csrf
                         <input type="hidden" id="productFormMethod" name="_method" value="PUT" disabled>
@@ -276,7 +277,7 @@
                                     <div class="form-group">
                                         <label for="productDiscount">Discount Percentage</label>
                                         <div class="discount-input-wrap">
-                                            <input class="input-field" id="productDiscount" name="productDiscount" type="number" min="0" max="100" step="1" value="0">
+                                            <input class="input-field" id="productDiscount" name="discount" type="number" min="0" max="100" step="1" value="0">
                                             <span class="discount-suffix">%</span>
                                         </div>
                                         <p class="field-help">Set to 0 if there is no discount. Discounted products also appear in the Sale tab.</p>
@@ -299,10 +300,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <!-- <label class="admin-check">
-                                        <input type="checkbox" id="removeImage" name="remove_image" value="1">
-                                        <span>Remove current image</span>
-                                    </label> -->
+
                                 </section>
 
                                 <section class="panel editor-panel">
@@ -320,19 +318,14 @@
                                         <label for="productStatus">Status</label>
                                         <select class="input-field" id="productStatus" name="productStatus">
                                             <option value="Active (In Stock)">Active (In Stock)</option>
-                                            <option value="Active (Low Stock)">Active (Low Stock)</option>
                                             <option value="Out of Stock">Out of Stock</option>
-                                            <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
-                                    <label class="admin-check">
-                                        <input type="checkbox" id="productSale" name="on_sale" value="1">
-                                        <span>Sale</span>
-                                    </label>
                                 </section>
                             </div>
                         </div>
                     </form>
+                    <!-- ================= form ends here ======================== -->
                 </section>
             </div>
         </main>

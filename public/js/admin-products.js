@@ -11,6 +11,7 @@ const productStock = document.getElementById("productStock");
 const productId = document.getElementById("productId");
 const productName = document.getElementById("productName");
 const productPrice = document.getElementById("productPrice");
+const productDiscount = document.getElementById("productDiscount");
 const productCategory = document.getElementById("productCategory");
 const productSale = document.getElementById("productSale");
 const productImage = document.getElementById("productImage");
@@ -197,6 +198,7 @@ if (tableBody) {
             price: editButton.dataset.price || "",
             stock: editButton.dataset.stock || "0",
             category: editButton.dataset.category || "Women's Wear",
+            discount: editButton.dataset.discount || "0",
             onSale: editButton.dataset.onSale || "0",
             imageUrl: editButton.dataset.imageUrl || "",
         };
@@ -217,6 +219,10 @@ if (tableBody) {
 
         if (productStock instanceof HTMLInputElement) {
             productStock.value = productData.stock;
+        }
+
+        if (productDiscount instanceof HTMLInputElement) {
+            productDiscount.value = productData.discount;
         }
 
         if (productCategory instanceof HTMLSelectElement) {

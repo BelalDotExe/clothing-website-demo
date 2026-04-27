@@ -34,16 +34,19 @@ class ProductController extends Controller
             'on_sale' => ['nullable', 'boolean'],
             'in_stock' => ['nullable', 'boolean'],
             'image' => ['nullable', 'image', 'max:5120'],
+            'discount' => ['required', 'integer', 'min:0', 'max:100'],
         ]);
 
         $stock = (int) ($data['stock'] ?? 0);
+        $discount = (int) ($data['discount'] ?? 0);
         $inStock = $stock > 0;
         $payload = [
             'name' => $data['name'],
             'price' => $data['price'],
             'stock' => $stock,
             'category' => $data['category'],
-            'on_sale' => (bool) ($data['on_sale'] ?? false),
+            'discount' => $discount,
+            'on_sale' => $discount > 0,
             'in_stock' => $inStock,
         ];
 
@@ -65,18 +68,27 @@ class ProductController extends Controller
             'category' => ['required', 'string', 'in:'.implode(',', self::CATEGORIES)],
             'on_sale' => ['nullable', 'boolean'],
             'in_stock' => ['nullable', 'boolean'],
-            'image' => ['nullable', 'image', 'max:5120'],
+            
+            // image validations here (MIME)
+            'image' => ['nullable',
+            File::image()
+            ->types(['jpg','png','jpeg','webp']),
+             'extensions:jpg,jpeg,png,webp',
+             'max:5120'],
             'remove_image' => ['nullable', 'boolean'],
+            'discount' => ['required', 'integer', 'min:0', 'max:100'],
         ]);
 
         $stock = (int) ($data['stock'] ?? 0);
+        $discount = (int) ($data['discount'] ?? 0);
         $inStock = $stock > 0;
         $payload = [
             'name' => $data['name'],
             'price' => $data['price'],
             'stock' => $stock,
             'category' => $data['category'],
-            'on_sale' => (bool) ($data['on_sale'] ?? false),
+            'discount' => $discount,
+            'on_sale' => $discount > 0,
             'in_stock' => $inStock,
         ];
 

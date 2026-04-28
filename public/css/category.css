@@ -132,6 +132,17 @@ a {
     background: transparent;
     border: none;
     color: var(--foreground);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.aura-icon-btn svg {
+    stroke: currentColor;
+    fill: none;
+}
+
+a.aura-icon-btn:hover {
+    background: var(--muted);
 }
 
 .aura-icon-btn:focus-visible,

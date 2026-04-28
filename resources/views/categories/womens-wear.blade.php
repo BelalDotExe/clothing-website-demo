@@ -26,23 +26,27 @@
                 <a class="aura-nav__link" href="/">Home</a>
                 <a class="aura-nav__link aura-nav__link--active" href="/categories/womens-wear" aria-current="page">Categories</a>
                 <a class="aura-nav__link" href="#">New Arrivals</a>
-                
+
             </nav>
 
             <div class="aura-actions" aria-label="Quick actions">
                 <button class="aura-icon-btn" type="button" aria-label="Search">
-                    <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true">
-                        <path fill="currentColor" d="M10 4a6 6 0 1 1 3.74 10.7l4.78 4.78-1.42 1.42-4.78-4.78A6 6 0 0 1 10 4zm0 2a4 4 0 1 0 0 8a4 4 0 0 0 0-8z"/>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
                     </svg>
                 </button>
-                <button class="aura-icon-btn" type="button" aria-label="Account">
-                    <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true">
-                        <path fill="currentColor" d="M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/>
+                <a class="aura-icon-btn" href="/admin/login" aria-label="Admin">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
                     </svg>
-                </button>
+                </a>
                 <button class="aura-icon-btn aura-cart" type="button" aria-label="Cart">
-                    <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true">
-                        <path fill="currentColor" d="M7 6h14l-2 9H8L6.6 2H3v2h2l2.2 11h12.3l2.6-11H7V6zm2 16a2 2 0 1 1 0-4a2 2 0 0 1 0 4zm10 0a2 2 0 1 1 0-4a2 2 0 0 1 0 4z"/>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                        <path d="M3 6h18"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
                     </svg>
                     <span class="aura-cart__dot" aria-hidden="true"></span>
                 </button>

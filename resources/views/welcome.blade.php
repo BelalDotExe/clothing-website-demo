@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chroma - Wear Your True Colors</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100..900&display=swap" rel="stylesheet">
@@ -40,12 +39,25 @@
                 </nav>
 
                 <div class="lp-actions" aria-label="Quick actions">
-
-                    <button class="lp-icon-btn" type="button" aria-label="Account" >
-                       <a href="/admin/login"> <i style="font-size:20px;" class="fa-regular fa-user" ></i></a>
+                    <button class="lp-icon-btn" type="button" aria-label="Search">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
                     </button>
+                    <a class="lp-icon-btn" href="/admin/login" aria-label="Admin">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </a>
                     <button class="lp-icon-btn lp-cart" type="button" aria-label="Cart">
-                        <i style="font-size:20px;" class="fa-solid fa-cart-shopping"></i>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+                            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                            <path d="M3 6h18"/>
+                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                        <span class="lp-cart__dot" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -62,8 +74,8 @@
                     </p>
                     <a class="cta-btn" href="#">Shop the Collection</a>
                 </div>
-                <div class="hero-image placeholder-block">
-                    <span>Hero image placeholder</span>
+                <div class="hero-image">
+                    <img src="{{ asset('images/hero.jpg') }}" alt="Spring Collection 2025" loading="eager">
                 </div>
             </section>
 
@@ -71,21 +83,21 @@
                 <h2 class="section-title" style=" font-family: 'Smooch Sans', sans-serif; font-optical-sizing: auto; font-size: 50px;">Shop by Category</h2>
                 <div class="category-grid">
                     <article class="category-card">
-                        <div class="placeholder-block"><span>Womenswear image</span></div>
+                        <img src="{{ asset('images/womenswear.jpg') }}" alt="Womenswear" loading="lazy">
                         <div class="overlay">
                             <h3>Womenswear</h3>
-                            <a href="#">Explore</a>
+                            <a href="/categories/womens-wear">Explore</a>
                         </div>
                     </article>
                     <article class="category-card">
-                        <div class="placeholder-block"><span>Menswear image</span></div>
+                        <img src="{{ asset('images/menswear.jpg') }}" alt="Menswear" loading="lazy">
                         <div class="overlay">
                             <h3>Menswear</h3>
                             <a href="#">Explore</a>
                         </div>
                     </article>
                     <article class="category-card">
-                        <div class="placeholder-block"><span>Accessories image</span></div>
+                        <img src="{{ asset('images/accessories.jpg') }}" alt="Accessories" loading="lazy">
                         <div class="overlay">
                             <h3>Accessories</h3>
                             <a href="#">Explore</a>

@@ -51,14 +51,14 @@
                             <circle cx="12" cy="7" r="4"/>
                         </svg>
                     </a>
-                    <button class="lp-icon-btn lp-cart" type="button" aria-label="Cart">
+                    <a class="lp-icon-btn lp-cart" href="/cart" aria-label="Cart">
                         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
                             <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
                             <path d="M3 6h18"/>
                             <path d="M16 10a4 4 0 0 1-8 0"/>
                         </svg>
                         <span class="lp-cart__dot" aria-hidden="true"></span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </header>

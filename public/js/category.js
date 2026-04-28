@@ -9,23 +9,72 @@ if (menuToggle && nav) {
 }
 
 const dbProducts = Array.isArray(window.auraProducts) ? window.auraProducts : [];
+const cartKey = "aura_cart";
 
 const PLACEHOLDER_IMAGE =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 800'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23d8d8c7'/%3E%3Cstop offset='1' stop-color='%23f4f4e8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='600' height='800' fill='url(%23g)'/%3E%3Cpath d='M162 560l92-118l80 104l40-54l104 128H122z' fill='%23c3c3b1'/%3E%3Ccircle cx='252' cy='296' r='54' fill='%23c9c9b8'/%3E%3C/svg%3E";
 
-const elements = {
+const el = {
     tabs: document.querySelectorAll(".aura-pill[data-category]"),
     title: document.getElementById("categoryTitle"),
     breadcrumbLabel: document.getElementById("activeCategoryLabel"),
     count: document.getElementById("gridCount"),
     sort: document.getElementById("sortBy"),
     grid: document.getElementById("productGrid"),
+    cartCount: document.getElementById("auraCartCount"),
 };
 
-const state = {
+const st = {
     activeCategory: "Women's Wear",
     sortBy: "newest",
 };
+
+function getCart() {
+    try {
+        const raw = localStorage.getItem(cartKey);
+        const list = raw ? JSON.parse(raw) : [];
+        return Array.isArray(list) ? list : [];
+    } catch {
+        return [];
+    }
+}
+
+function setCart(list) {
+    localStorage.setItem(cartKey, JSON.stringify(list));
+}
+
+function updateCartCount() {
+    if (!el.cartCount) {
+        return;
+    }
+
+    const c = getCart().reduce((n, i) => n + (Number(i.qty) || 0), 0);
+    el.cartCount.textContent = String(c);
+    el.cartCount.style.display = c > 0 ? "inline-flex" : "none";
+}
+
+function addToCart(p) {
+    const list = getCart();
+    const id = Number(p.id) || 0;
+    const i = list.findIndex((x) => Number(x.id) === id);
+
+    if (i >= 0) {
+        list[i].qty = (Number(list[i].qty) || 0) + 1;
+    } else {
+        list.push({
+            id,
+            name: p.name,
+            price: Number(p.price) || 0,
+            image: getImageUrl(p),
+            category: p.category || "",
+            stock: Number(p.stock) || 0,
+            qty: 1,
+        });
+    }
+
+    setCart(list);
+    updateCartCount();
+}
 
 function escapeHtml(value) {
     return String(value)
@@ -37,8 +86,8 @@ function escapeHtml(value) {
 }
 
 function formatPrice(product) {
-    const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "PKR" });
-    return `<p class="aura-card__price">${escapeHtml(formatter.format(Number(product.price) || 0))}</p>`;
+    const fmt = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+    return `<p class="aura-card__price">${escapeHtml(fmt.format(Number(product.price) || 0))}</p>`;
 }
 
 function stockMeta(product) {
@@ -69,7 +118,7 @@ function getImageUrl(product) {
 }
 
 function productCard(product) {
-    const hasDiscount = Boolean(product.on_sale) || Boolean(product.discount) >=1 ;
+    const hasDiscount = Boolean(product.on_sale) || Number(product.discount) >= 1;
     const soldOut = Number(product.stock) <= 0;
 
     return `
@@ -86,7 +135,7 @@ function productCard(product) {
                 </div>
                 ${formatPrice(product)}
             </div>
-            <button class="aura-btn aura-btn--secondary" type="button" data-action="add-to-cart" ${soldOut ? "disabled" : ""}>
+            <button class="aura-btn aura-btn--secondary" type="button" data-action="add-to-cart" data-id="${escapeHtml(product.id)}" ${soldOut ? "disabled" : ""}>
                 ${soldOut ? "Out of Stock" : "Add to Cart"}
             </button>
         </article>
@@ -94,21 +143,21 @@ function productCard(product) {
 }
 
 function getProductsForActiveTab() {
-    if (state.activeCategory === "Sale") {
+    if (st.activeCategory === "Sale") {
         return dbProducts.filter((product) => Boolean(product.on_sale));
     }
 
-    return dbProducts.filter((product) => product.category === state.activeCategory);
+    return dbProducts.filter((product) => product.category === st.activeCategory);
 }
 
 function sortProducts(products) {
     const list = [...products];
 
-    if (state.sortBy === "price-asc") {
+    if (st.sortBy === "price-asc") {
         list.sort((left, right) => Number(left.price || 0) - Number(right.price || 0));
-    } else if (state.sortBy === "price-desc") {
+    } else if (st.sortBy === "price-desc") {
         list.sort((left, right) => Number(right.price || 0) - Number(left.price || 0));
-    } else if (state.sortBy === "name-asc") {
+    } else if (st.sortBy === "name-asc") {
         list.sort((left, right) => left.name.localeCompare(right.name));
     } else {
         list.sort((left, right) => Number(right.id || 0) - Number(left.id || 0));
@@ -119,12 +168,12 @@ function sortProducts(products) {
 
 function render() {
     const products = sortProducts(getProductsForActiveTab());
-    elements.title.textContent = state.activeCategory;
-    elements.breadcrumbLabel.textContent = state.activeCategory;
-    elements.count.textContent = `Showing ${products.length} product${products.length === 1 ? "" : "s"}`;
+    el.title.textContent = st.activeCategory;
+    el.breadcrumbLabel.textContent = st.activeCategory;
+    el.count.textContent = `Showing ${products.length} product${products.length === 1 ? "" : "s"}`;
 
     if (!products.length) {
-        elements.grid.innerHTML = `
+        el.grid.innerHTML = `
             <article class="aura-empty-state">
                 <h2>No products yet</h2>
                 <p>Products in this tab will appear here after they are added in Admin &gt; Products.</p>
@@ -133,12 +182,12 @@ function render() {
         return;
     }
 
-    elements.grid.innerHTML = products.map(productCard).join("");
+    el.grid.innerHTML = products.map(productCard).join("");
 }
 
 function setActiveTab(category) {
-    state.activeCategory = category;
-    elements.tabs.forEach((pill) => {
+    st.activeCategory = category;
+    el.tabs.forEach((pill) => {
         const isSelected = pill.dataset.category === category;
         pill.classList.toggle("is-active", isSelected);
         pill.setAttribute("aria-selected", isSelected ? "true" : "false");
@@ -146,7 +195,7 @@ function setActiveTab(category) {
     render();
 }
 
-elements.tabs.forEach((pill) => {
+el.tabs.forEach((pill) => {
     pill.addEventListener("click", () => {
         const category = pill.dataset.category;
         if (!category) {
@@ -157,42 +206,52 @@ elements.tabs.forEach((pill) => {
     });
 });
 
-if (elements.sort) {
-    elements.sort.addEventListener("change", (event) => {
+if (el.sort) {
+    el.sort.addEventListener("change", (event) => {
         const target = event.target;
         if (!(target instanceof HTMLSelectElement)) {
             return;
         }
 
-        state.sortBy = target.value;
+        st.sortBy = target.value;
         render();
     });
 }
 
-elements.grid.addEventListener("click", (event) => {
+el.grid.addEventListener("click", (event) => {
     const target = event.target;
     if (!(target instanceof Element)) {
         return;
     }
 
-    const button = target.closest("button[data-action='add-to-cart']");
-    if (!(button instanceof HTMLButtonElement)) {
+    const btn = target.closest("button[data-action='add-to-cart']");
+    if (!(btn instanceof HTMLButtonElement)) {
         return;
     }
 
-    const original = button.textContent;
-    button.textContent = "Added";
-    button.disabled = true;
+    const id = Number(btn.dataset.id || 0);
+    const p = dbProducts.find((item) => Number(item.id) === id);
+    if (!p) {
+        return;
+    }
+
+    addToCart(p);
+
+    const old = btn.textContent;
+    btn.textContent = "Added";
+    btn.disabled = true;
     window.setTimeout(() => {
-        button.textContent = original;
-        if (original !== "Out of Stock") {
-            button.disabled = false;
+        btn.textContent = old;
+        if (old !== "Out of Stock") {
+            btn.disabled = false;
         }
-    }, 1000);
+    }, 700);
 });
 
 if (window.location.hash.toLowerCase() === "#sale") {
     setActiveTab("Sale");
 } else {
-    setActiveTab(state.activeCategory);
+    setActiveTab(st.activeCategory);
 }
+
+updateCartCount();

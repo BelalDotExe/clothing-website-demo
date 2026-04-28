@@ -161,13 +161,19 @@ a.aura-icon-btn:hover {
 
 .aura-cart__dot {
     position: absolute;
-    top: 4px;
-    right: 2px;
-    width: 10px;
-    height: 10px;
+    top: 2px;
+    right: 0;
+    width: 18px;
+    height: 18px;
     background: var(--accent);
     border-radius: 50%;
     border: 2px solid var(--secondary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .aura-page-header {

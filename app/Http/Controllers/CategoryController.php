@@ -13,4 +13,9 @@ class CategoryController extends Controller
 
         return view('categories.womens-wear', compact('products'));
     }
+
+    public function cart(): View
+    {
+        return view('categories.cart');
+    }
 }

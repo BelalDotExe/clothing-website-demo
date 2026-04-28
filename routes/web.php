@@ -10,6 +10,7 @@ Route::get('/', function () {
 });
 
 Route::get('/categories/womens-wear', [CategoryController::class, 'womensWear']);
+Route::get('/cart', [CategoryController::class, 'cart'])->name('cart');
 
 // if no session exists, come here
 Route::middleware('adm.guest')->group(function () {

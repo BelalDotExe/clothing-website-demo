@@ -268,10 +268,7 @@
                                             <label for="productStock">Stock</label>
                                             <input class="input-field" id="productStock" name="stock" type="number" min="0" step="1" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productSku">SKU</label>
-                                            <input class="input-field" id="productSku" name="productSku" type="text">
-                                        </div>
+                                        
                                     </div>
 
                                     <div class="form-group">

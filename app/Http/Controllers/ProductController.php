@@ -7,6 +7,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Validation\Rules\File;
+
 
 class ProductController extends Controller
 {
@@ -30,10 +32,17 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
-            'category' => ['required', 'string', 'in:'.implode(',', self::CATEGORIES)],
+            'category' => ['required', 'string'],
             'on_sale' => ['nullable', 'boolean'],
             'in_stock' => ['nullable', 'boolean'],
-            'image' => ['nullable', 'image', 'max:5120'],
+
+            //image validations here (MIME)
+             'image' => ['nullable',
+            File::image()
+            ->types(['jpg','png','jpeg','webp']),
+             'extensions:jpg,jpeg,png,webp',
+             'max:5120'],
+            'remove_image' => ['nullable', 'boolean'],
             'discount' => ['required', 'integer', 'min:0', 'max:100'],
         ]);
 
@@ -68,7 +77,7 @@ class ProductController extends Controller
             'category' => ['required', 'string', 'in:'.implode(',', self::CATEGORIES)],
             'on_sale' => ['nullable', 'boolean'],
             'in_stock' => ['nullable', 'boolean'],
-            
+
             // image validations here (MIME)
             'image' => ['nullable',
             File::image()

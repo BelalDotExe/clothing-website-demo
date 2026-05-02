@@ -101,10 +101,9 @@
                         <button class="user-chip" type="button" aria-label="User menu">
                             <span class="avatar" aria-hidden="true">SA</span>
                             <span class="user-text">
-                                <strong>Sarah Admin</strong>
                                 <small>Store Manager</small>
                             </span>
-                            <span class="chev" aria-hidden="true">
+                            <span class="chev" >
                                 <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="m7 10l5 5l5-5z"/></svg>
                             </span>
                         </button>
@@ -165,87 +164,7 @@
                 </section>
 
                 <section class="grid-layout" aria-label="Inventory management">
-                    <article class="panel">
-                        <header class="panel-header">
-                            <h3 class="panel-title">Low Stock Items</h3>
-                            <button class="btn btn-outline btn-sm" type="button">View All Alerts</button>
-                        </header>
-                        <div class="table-container">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Category</th>
-                                        <th>Status</th>
-                                        <th>Stock</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="product-cell">
-                                                <span class="product-img" aria-hidden="true"></span>
-                                                <span class="product-info">
-                                                    <strong class="product-name">Olive Green Chinos</strong>
-                                                    <small class="product-sku">SKU: AU-1092</small>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td><span class="table-meta">Men's Wear</span></td>
-                                        <td><span class="badge badge-destructive">Critical</span></td>
-                                        <td><strong class="stock-danger">2 Left</strong></td>
-                                        <td><button class="btn btn-outline btn-sm" type="button">Update</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="product-cell">
-                                                <span class="product-img" aria-hidden="true"></span>
-                                                <span class="product-info">
-                                                    <strong class="product-name">Oversized Knit Sweater</strong>
-                                                    <small class="product-sku">SKU: AU-2841</small>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td><span class="table-meta">Women's Wear</span></td>
-                                        <td><span class="badge badge-warning">Low</span></td>
-                                        <td><strong class="stock-warn">5 Left</strong></td>
-                                        <td><button class="btn btn-outline btn-sm" type="button">Update</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="product-cell">
-                                                <span class="product-img" aria-hidden="true"></span>
-                                                <span class="product-info">
-                                                    <strong class="product-name">Leather Crossbody Bag</strong>
-                                                    <small class="product-sku">SKU: AU-4019</small>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td><span class="table-meta">Accessories</span></td>
-                                        <td><span class="badge badge-destructive">Critical</span></td>
-                                        <td><strong class="stock-danger">1 Left</strong></td>
-                                        <td><button class="btn btn-outline btn-sm" type="button">Update</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="product-cell">
-                                                <span class="product-img" aria-hidden="true"></span>
-                                                <span class="product-info">
-                                                    <strong class="product-name">Canvas Sneakers</strong>
-                                                    <small class="product-sku">SKU: AU-5103</small>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td><span class="table-meta">Shoes</span></td>
-                                        <td><span class="badge badge-warning">Low</span></td>
-                                        <td><strong class="stock-warn">4 Left</strong></td>
-                                        <td><button class="btn btn-outline btn-sm" type="button">Update</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </article>
+
 
                     <article class="panel panel--catalog">
                         <div>

@@ -56,10 +56,18 @@ function updateCartCount() {
 function addToCart(p) {
     const list = getCart();
     const id = Number(p.id) || 0;
+    const stock = Math.max(0, Number(p.stock) || 0);
+
+    if (stock <= 0) {
+        return;
+    }
+
     const i = list.findIndex((x) => Number(x.id) === id);
 
     if (i >= 0) {
-        list[i].qty = (Number(list[i].qty) || 0) + 1;
+        const nextQty = (Number(list[i].qty) || 0) + 1;
+        list[i].qty = Math.min(nextQty, stock);
+        list[i].stock = stock;
     } else {
         list.push({
             id,
@@ -67,7 +75,7 @@ function addToCart(p) {
             price: Number(p.price) || 0,
             image: getImageUrl(p),
             category: p.category || "",
-            stock: Number(p.stock) || 0,
+            stock,
             qty: 1,
         });
     }
@@ -85,6 +93,7 @@ function escapeHtml(value) {
         .replaceAll("'", "&#039;");
 }
 
+//price currency formatter
 function formatPrice(product) {
     const fmt = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
     return `<p class="aura-card__price">${escapeHtml(fmt.format(Number(product.price) || 0))}</p>`;

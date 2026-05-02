@@ -8,6 +8,7 @@ const el = {
     subVal: document.getElementById("subVal"),
     totalVal: document.getElementById("totalVal"),
     cartCount: document.getElementById("cartCount"),
+    checkoutBtn: document.getElementById("checkoutBtn"),
 };
 
 function getCart() {
@@ -44,6 +45,10 @@ function sumTotal(list) {
     return list.reduce((n, i) => n + (Number(i.price) || 0) * (Number(i.qty) || 0), 0);
 }
 
+function checkout() {
+    alert("Checkout functionality is not implemented in this demo.");
+}
+
 function draw() {
     const list = getCart();
     const qty = sumQty(list);
@@ -64,6 +69,9 @@ function draw() {
     el.list.innerHTML = list
         .map((i) => {
             const s = stockText(Number(i.stock) || 0);
+            const qty = Number(i.qty) || 1;
+            const stock = Number(i.stock) || 0;
+            const atMax = stock > 0 && qty >= stock;
             return `
                 <article class="cart-item">
                     <img src="${i.image}" alt="${i.name}">
@@ -79,8 +87,8 @@ function draw() {
                         <div class="item-foot">
                             <div class="qty">
                                 <button type="button" data-act="dec" data-id="${i.id}">-</button>
-                                <span>${Number(i.qty) || 1}</span>
-                                <button type="button" data-act="inc" data-id="${i.id}">+</button>
+                                <span>${qty}</span>
+                                <button type="button" data-act="inc" data-id="${i.id}" ${atMax ? "disabled" : ""}>+</button>
                             </div>
                             <button type="button" class="remove" data-act="rm" data-id="${i.id}">Remove</button>
                         </div>
@@ -112,7 +120,14 @@ el.list.addEventListener("click", (e) => {
     }
 
     if (act === "inc") {
-        list[idx].qty = (Number(list[idx].qty) || 0) + 1;
+        const stock = Math.max(0, Number(list[idx].stock) || 0);
+        const nextQty = (Number(list[idx].qty) || 0) + 1;
+
+        if (stock > 0) {
+            list[idx].qty = Math.min(nextQty, stock);
+        } else {
+            list[idx].qty = nextQty;
+        }
     }
 
     if (act === "dec") {

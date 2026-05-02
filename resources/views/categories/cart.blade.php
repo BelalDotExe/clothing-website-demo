@@ -12,10 +12,11 @@
             <a class="cart-brand" href="/">
                 <span class="cart-brand__mark">
                     <svg viewBox="0 0 24 24" width="20" height="20">
+                        {{-- logo --}}
                         <path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/>
                     </svg>
                 </span>
-                <span class="cart-brand__name">Aura</span>
+                <span class="cart-brand_name">Aura</span>
             </a>
 
             <nav class="cart-nav">
@@ -26,12 +27,6 @@
             </nav>
 
             <div class="cart-head-actions">
-                <button type="button" class="icon-btn">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.35-4.35"/>
-                    </svg>
-                </button>
                 <a class="icon-btn" href="/admin/login">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
@@ -78,9 +73,9 @@
                     <span id="totalVal">$0.00</span>
                 </div>
 
-                <button type="button" class="checkout-btn">Proceed to Checkout</button>
+                <button type="button" onclick="checkout()" class="checkout-btn">Proceed to Checkout</button>
 
-                <p class="safe-note">Secure checkout provided by Stripe</p>
+
             </aside>
         </div>
     </main>

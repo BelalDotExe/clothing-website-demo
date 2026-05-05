@@ -11,7 +11,7 @@ class AdminAuthController extends Controller
 {
     public function show(): View
     {
-        return view('admin.login');
+        return view('auth.login');
     }
 
     public function login(Request $request): RedirectResponse

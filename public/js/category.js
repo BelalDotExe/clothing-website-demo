@@ -25,7 +25,9 @@ const el = {
 };
 
 const st = {
-    activeCategory: "Women's Wear",
+    activeCategory: typeof window.auraDefaultCategory === "string" && window.auraDefaultCategory.trim()
+        ? window.auraDefaultCategory.trim()
+        : "Sale",
     sortBy: "newest",
 };
 

@@ -73,7 +73,7 @@
                     <span id="totalVal">$0.00</span>
                 </div>
 
-                <button type="button" onclick="checkout()" class="checkout-btn">Proceed to Checkout</button>
+                <button type="button" onclick="checkout()" id="checkoutBtn" class="checkout-btn">Proceed to Checkout</button>
 
 
             </aside>

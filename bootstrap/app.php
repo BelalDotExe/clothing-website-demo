@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'adm.auth' => \App\Http\Middleware\AdmAuth::class,
             'adm.guest' => \App\Http\Middleware\AdmGuest::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'checkout',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

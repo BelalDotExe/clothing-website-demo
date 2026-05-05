@@ -46,7 +46,74 @@ function sumTotal(list) {
 }
 
 function checkout() {
-    alert("Checkout functionality is not implemented in this demo.");
+    const list = getCart();
+    if (!list.length) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    const payload = {
+        items: list.map((item) => ({
+            id: Number(item.id) || 0,
+            qty: Math.max(1, Number(item.qty) || 1),
+        })),
+    };
+
+    const btn = el.checkoutBtn instanceof HTMLButtonElement ? el.checkoutBtn : null;
+    const oldText = btn?.textContent || "Proceed to Checkout";
+
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Placing Order...";
+    }
+
+    fetch("/checkout", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+    })
+        .then(async (response) => {
+            const body = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                if (response.status === 422 && Array.isArray(body.out_of_stock)) {
+                    const unavailable = body.out_of_stock
+                        .map((item) => `${item.name} (available: ${item.available})`)
+                        .join("\n");
+                    alert(`Some items are out of stock:\n${unavailable}`);
+
+                    const soldOutIds = new Set(
+                        body.out_of_stock
+                            .filter((item) => Number(item.available) <= 0)
+                            .map((item) => Number(item.id) || 0)
+                    );
+                    const updated = getCart().filter((item) => !soldOutIds.has(Number(item.id) || 0));
+                    setCart(updated);
+                    draw();
+                    return;
+                }
+
+                throw new Error(body.message || "Could not place order.");
+            }
+
+            setCart([]);
+            draw();
+            const orderNumber = body?.order?.order_number || "";
+            alert(orderNumber ? `Order placed successfully.\nOrder #: ${orderNumber}` : "Order placed successfully.");
+            window.location.href = "/categories/womens-wear";
+        })
+        .catch((error) => {
+            alert(error.message || "Unable to checkout right now.");
+        })
+        .finally(() => {
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = oldText;
+            }
+        });
 }
 
 function draw() {

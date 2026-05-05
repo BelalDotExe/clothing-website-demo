@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\File;
 use Illuminate\View\View;
 use Illuminate\Validation\Rules\File;
 
@@ -23,7 +24,7 @@ class ProductController extends Controller
     {
         $products = Product::latest()->get();
 
-        return view('admin.products', compact('products'));
+        return view('admin.products.index', compact('products'));
     }
 
     public function store(Request $request): RedirectResponse

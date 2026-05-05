@@ -11,11 +11,11 @@ class CategoryController extends Controller
     {
         $products = Product::latest()->get();
 
-        return view('categories.womens-wear', compact('products'));
+        return view('pages.categories.show', compact('products'));
     }
 
     public function cart(): View
     {
-        return view('categories.cart');
+        return view('pages.cart');
     }
 }

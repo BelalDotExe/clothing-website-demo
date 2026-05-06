@@ -10,7 +10,7 @@
     <main class="admin-login-layout">
         <section class="admin-visual" aria-label="Brand showcase">
             <div class="admin-visual__image" aria-hidden="true">
-                <span>Store interior image placeholder</span>
+                <img src="" alt="">
             </div>
             <div class="admin-visual__overlay"></div>
             <div class="admin-visual__content">

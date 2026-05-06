@@ -30,12 +30,6 @@
             </nav>
 
             <div class="aura-actions">
-                <button class="aura-icon-btn" type="button">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.35-4.35"/>
-                    </svg>
-                </button>
                 <a class="aura-icon-btn" href="/admin/login">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
@@ -62,17 +56,16 @@
                     <li>/</li>
                     <li><a href="/categories/womens-wear">Categories</a></li>
                     <li>/</li>
-                    <li id="activeCategoryLabel">Women's Wear</li>
+                    <li id="activeCategoryLabel">{{ $categories->first()->name ?? 'Sale' }}</li>
                 </ol>
             </nav>
 
-            <h1 class="aura-title" id="categoryTitle">Women's Wear</h1>
+            <h1 class="aura-title" id="categoryTitle">{{ $categories->first()->name ?? 'Sale' }}</h1>
 
             <div class="aura-filters" id="categoryTabs">
-                <button class="aura-pill is-active" type="button" role="tab" aria-selected="true" data-category="Women's Wear">Women's Wear</button>
-                <button class="aura-pill" type="button" role="tab" aria-selected="false" data-category="Men's Wear">Men's Wear</button>
-                <button class="aura-pill" type="button" role="tab" aria-selected="false" data-category="Shoes">Shoes</button>
-                <button class="aura-pill" type="button" role="tab" aria-selected="false" data-category="Accessories">Accessories</button>
+                @foreach ($categories as $category)
+                    <button class="aura-pill {{ $loop->first ? 'is-active' : '' }}" type="button" role="tab" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-category="{{ $category->name }}">{{ $category->name }}</button>
+                @endforeach
                 <button class="aura-pill aura-pill--sale" type="button" role="tab" aria-selected="false" data-category="Sale" id="sale">Sale</button>
             </div>
         </div>
@@ -98,6 +91,7 @@
 
     <script>
         window.auraProducts = @json($products);
+        window.auraDefaultCategory = @json($categories->first()->name ?? 'Sale');
     </script>
     <script src="{{ asset('js/category.js') }}"></script>
 </body>

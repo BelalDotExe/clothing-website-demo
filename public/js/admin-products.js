@@ -197,7 +197,7 @@ if (tableBody) {
             name: editButton.dataset.name || "",
             price: editButton.dataset.price || "",
             stock: editButton.dataset.stock || "0",
-            category: editButton.dataset.category || "Women's Wear",
+            categoryId: editButton.dataset.categoryId || "",
             discount: editButton.dataset.discount || "0",
             onSale: editButton.dataset.onSale || "0",
             imageUrl: editButton.dataset.imageUrl || "",
@@ -226,7 +226,7 @@ if (tableBody) {
         }
 
         if (productCategory instanceof HTMLSelectElement) {
-            productCategory.value = productData.category;
+            productCategory.value = productData.categoryId;
         }
 
         if (productSale instanceof HTMLInputElement) {

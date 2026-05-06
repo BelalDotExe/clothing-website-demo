@@ -8,6 +8,7 @@ const el = {
     subVal: document.getElementById("subVal"),
     totalVal: document.getElementById("totalVal"),
     cartCount: document.getElementById("cartCount"),
+    checkoutBtn: document.getElementById("checkoutBtn"),
 };
 
 function getCart() {
@@ -44,6 +45,77 @@ function sumTotal(list) {
     return list.reduce((n, i) => n + (Number(i.price) || 0) * (Number(i.qty) || 0), 0);
 }
 
+function checkout() {
+    const list = getCart();
+    if (!list.length) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    const payload = {
+        items: list.map((item) => ({
+            id: Number(item.id) || 0,
+            qty: Math.max(1, Number(item.qty) || 1),
+        })),
+    };
+
+    const btn = el.checkoutBtn instanceof HTMLButtonElement ? el.checkoutBtn : null;
+    const oldText = btn?.textContent || "Proceed to Checkout";
+
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Placing Order...";
+    }
+
+    fetch("/checkout", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+    })
+        .then(async (response) => {
+            const body = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                if (response.status === 422 && Array.isArray(body.out_of_stock)) {
+                    const unavailable = body.out_of_stock
+                        .map((item) => `${item.name} (available: ${item.available})`)
+                        .join("\n");
+                    alert(`Some items are out of stock:\n${unavailable}`);
+
+                    const soldOutIds = new Set(
+                        body.out_of_stock
+                            .filter((item) => Number(item.available) <= 0)
+                            .map((item) => Number(item.id) || 0)
+                    );
+                    const updated = getCart().filter((item) => !soldOutIds.has(Number(item.id) || 0));
+                    setCart(updated);
+                    draw();
+                    return;
+                }
+
+                throw new Error(body.message || "Could not place order.");
+            }
+
+            setCart([]);
+            draw();
+            const orderNumber = body?.order?.order_number || "";
+            alert(orderNumber ? `Order placed successfully.\nOrder #: ${orderNumber}` : "Order placed successfully.");
+            window.location.href = "/categories/womens-wear";
+        })
+        .catch((error) => {
+            alert(error.message || "Unable to checkout right now.");
+        })
+        .finally(() => {
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = oldText;
+            }
+        });
+}
+
 function draw() {
     const list = getCart();
     const qty = sumQty(list);
@@ -64,6 +136,9 @@ function draw() {
     el.list.innerHTML = list
         .map((i) => {
             const s = stockText(Number(i.stock) || 0);
+            const qty = Number(i.qty) || 1;
+            const stock = Number(i.stock) || 0;
+            const atMax = stock > 0 && qty >= stock;
             return `
                 <article class="cart-item">
                     <img src="${i.image}" alt="${i.name}">
@@ -79,8 +154,8 @@ function draw() {
                         <div class="item-foot">
                             <div class="qty">
                                 <button type="button" data-act="dec" data-id="${i.id}">-</button>
-                                <span>${Number(i.qty) || 1}</span>
-                                <button type="button" data-act="inc" data-id="${i.id}">+</button>
+                                <span>${qty}</span>
+                                <button type="button" data-act="inc" data-id="${i.id}" ${atMax ? "disabled" : ""}>+</button>
                             </div>
                             <button type="button" class="remove" data-act="rm" data-id="${i.id}">Remove</button>
                         </div>
@@ -112,7 +187,14 @@ el.list.addEventListener("click", (e) => {
     }
 
     if (act === "inc") {
-        list[idx].qty = (Number(list[idx].qty) || 0) + 1;
+        const stock = Math.max(0, Number(list[idx].stock) || 0);
+        const nextQty = (Number(list[idx].qty) || 0) + 1;
+
+        if (stock > 0) {
+            list[idx].qty = Math.min(nextQty, stock);
+        } else {
+            list[idx].qty = nextQty;
+        }
     }
 
     if (act === "dec") {

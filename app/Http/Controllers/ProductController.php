@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Validation\Rules\File;
+
 
 class ProductController extends Controller
 {
-    private const CATEGORIES = [
-        "Women's Wear",
-        "Men's Wear",
-        'Accessories',
-        'Shoes',
-    ];
-
     public function index(): View
     {
-        $products = Product::latest()->get();
+        $products = Product::with('categoryRelation')->latest()->get();
+        $categories = Category::orderBy('name')->get();
 
-        return view('admin.products', compact('products'));
+        return view('admin.products', compact('products', 'categories'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -30,21 +27,30 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
-            'category' => ['required', 'string', 'in:'.implode(',', self::CATEGORIES)],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
             'on_sale' => ['nullable', 'boolean'],
             'in_stock' => ['nullable', 'boolean'],
-            'image' => ['nullable', 'image', 'max:5120'],
+
+            //image validations here (MIME)
+             'image' => ['nullable',
+            File::image()
+            ->types(['jpg','png','jpeg','webp']),
+             'extensions:jpg,jpeg,png,webp',
+             'max:5120'],
+            'remove_image' => ['nullable', 'boolean'],
             'discount' => ['required', 'integer', 'min:0', 'max:100'],
         ]);
 
         $stock = (int) ($data['stock'] ?? 0);
         $discount = (int) ($data['discount'] ?? 0);
         $inStock = $stock > 0;
+        $category = Category::findOrFail((int) $data['category_id']);
         $payload = [
             'name' => $data['name'],
             'price' => $data['price'],
             'stock' => $stock,
-            'category' => $data['category'],
+            'category_id' => $category->id,
+            'category' => $category->name,
             'discount' => $discount,
             'on_sale' => $discount > 0,
             'in_stock' => $inStock,
@@ -65,10 +71,10 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
-            'category' => ['required', 'string', 'in:'.implode(',', self::CATEGORIES)],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
             'on_sale' => ['nullable', 'boolean'],
             'in_stock' => ['nullable', 'boolean'],
-            
+
             // image validations here (MIME)
             'image' => ['nullable',
             File::image()
@@ -82,11 +88,13 @@ class ProductController extends Controller
         $stock = (int) ($data['stock'] ?? 0);
         $discount = (int) ($data['discount'] ?? 0);
         $inStock = $stock > 0;
+        $category = Category::findOrFail((int) $data['category_id']);
         $payload = [
             'name' => $data['name'],
             'price' => $data['price'],
             'stock' => $stock,
-            'category' => $data['category'],
+            'category_id' => $category->id,
+            'category' => $category->name,
             'discount' => $discount,
             'on_sale' => $discount > 0,
             'in_stock' => $inStock,

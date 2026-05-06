@@ -30,34 +30,11 @@
                     </span>
                     Products
                 </a>
-                <a class="nav-item" href="#">
+                <a class="nav-item" href="{{ route('admin.categories') }}">
                     <span class="nav-item__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M10 4H4v6h6zm10 0h-6v6h6zM10 14H4v6h6zm10 0h-6v6h6z"/></svg>
                     </span>
                     Categories
-                </a>
-                <a class="nav-item nav-item--split" href="#">
-                    <span class="nav-item__left">
-                        <span class="nav-item__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M7 6h14l-2 9H8L6.6 2H3v2h2l2.2 11h12.3l2.6-11H7V6z"/></svg>
-                        </span>
-                        Orders
-                    </span>
-                    <span class="count-pill">24</span>
-                </a>
-                <a class="nav-item" href="#">
-                    <span class="nav-item__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M16 11a4 4 0 1 0-8 0a4 4 0 0 0 8 0zm-4 6c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg>
-                    </span>
-                    Customers
-                </a>
-
-                <p class="sidebar-label sidebar-label--system">System</p>
-                <a class="nav-item" href="#">
-                    <span class="nav-item__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="m19.14 12.94l1.43-1.11l-1.43-1.11l.35-1.77l-1.77-.35l-1.11-1.43l-1.11 1.43l-1.77.35l.35 1.77l-1.43 1.11l1.43 1.11l-.35 1.77l1.77.35l1.11 1.43l1.11-1.43l1.77-.35zM10 4h8V2H6v20h8v-2h-6V4z"/></svg>
-                    </span>
-                    Settings
                 </a>
             </div>
 
@@ -114,7 +91,17 @@
                 @if (session('ok'))
                     <p style="color:#16a34a; margin-bottom:12px;">{{ session('ok') }}</p>
                 @endif
-                <section id="productListView">
+                @if ($errors->any())
+                    <div style="color:#b91c1c; background:#fee2e2; border:1px solid #fecaca; padding:12px; border-radius:10px; margin-bottom:12px;">
+                        <strong>Could not save product:</strong>
+                        <ul style="margin:8px 0 0 18px;">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <section id="productListView" class="{{ $errors->any() ? 'is-hidden' : '' }}">
                     <div class="heading-row">
                         <div>
                             <h2>Product Inventory</h2>
@@ -169,7 +156,7 @@
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td><span class="cell-meta">{{ $product->category ?? "Women's Wear" }}</span></td>
+                                            <td><span class="cell-meta">{{ $product->categoryRelation?->name ?? $product->category ?? "Women's Wear" }}</span></td>
                                             <td><strong class="cell-price">${{ number_format((float) $product->price, 2) }}</strong></td>
                                             <td>
                                                 @if ($product->in_stock)
@@ -188,7 +175,7 @@
                                                     data-name="{{ $product->name }}"
                                                     data-price="{{ $product->price }}"
                                                     data-stock="{{ $product->stock ?? 0 }}"
-                                                    data-category="{{ $product->category ?? "Women's Wear" }}"
+                                                    data-category-id="{{ $product->category_id ?? '' }}"
                                                     data-discount="{{ $product->discount ?? 0 }}"
                                                     data-image-url="{{ !empty($product->image) ? asset('storage/'.$product->image) : '' }}"
                                                 >
@@ -222,7 +209,7 @@
                     </section>
                 </section>
 
-                <section id="productEditorView" class="is-hidden" aria-live="polite">
+                <section id="productEditorView" class="{{ $errors->any() ? '' : 'is-hidden' }}" aria-live="polite">
                     <div class="editor-heading-row">
                         <div class="editor-heading-left">
                             <button class="btn-icon btn-icon-solid" type="button" id="editorBackBtn" aria-label="Back to products">
@@ -235,7 +222,7 @@
                         </div>
                         <div class="editor-actions">
                             <button class="btn btn-outline" type="button" id="editorCancelBtn">Cancel</button>
-                            <button class="btn btn-primary" type="submit" form="productEditorForm" id="editorSaveBtn">Save Product</button>
+                            <button class="btn btn-primary" type="submit" form="productEditorForm" id="editorSaveBtn" {{ $categories->isEmpty() ? 'disabled' : '' }}>Save Product</button>
                         </div>
                     </div>
 
@@ -251,33 +238,30 @@
 
                                     <div class="form-group">
                                         <label for="productName">Product Name</label>
-                                        <input class="input-field" id="productName" name="name" type="text" required>
+                                        <input class="input-field" id="productName" name="name" type="text" value="{{ old('name') }}" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="productDescription">Description</label>
-                                        <textarea class="textarea-field" id="productDescription" name="productDescription"></textarea>
+                                        <textarea class="textarea-field" id="productDescription" name="productDescription">{{ old('productDescription') }}</textarea>
                                     </div>
 
                                     <div class="field-row">
                                         <div class="form-group">
                                             <label for="productPrice">Price ($)</label>
-                                            <input class="input-field" id="productPrice" name="price" type="number" min="0" step="0.01" required>
+                                            <input class="input-field" id="productPrice" name="price" type="number" min="0" step="0.01" value="{{ old('price') }}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="productStock">Stock</label>
-                                            <input class="input-field" id="productStock" name="stock" type="number" min="0" step="1" required>
+                                            <input class="input-field" id="productStock" name="stock" type="number" min="0" step="1" value="{{ old('stock') }}" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="productSku">SKU</label>
-                                            <input class="input-field" id="productSku" name="productSku" type="text">
-                                        </div>
+                                        
                                     </div>
 
                                     <div class="form-group">
                                         <label for="productDiscount">Discount Percentage</label>
                                         <div class="discount-input-wrap">
-                                            <input class="input-field" id="productDiscount" name="discount" type="number" min="0" max="100" step="1" value="0">
+                                            <input class="input-field" id="productDiscount" name="discount" type="number" min="0" max="100" step="1" value="{{ old('discount', 0) }}">
                                             <span class="discount-suffix">%</span>
                                         </div>
                                         <p class="field-help">Set to 0 if there is no discount. Discounted products also appear in the Sale tab.</p>
@@ -307,12 +291,16 @@
                                     <h3 class="editor-panel__title">Category &amp; Status</h3>
                                     <div class="form-group">
                                         <label for="productCategory">Category</label>
-                                        <select class="input-field" id="productCategory" name="category">
-                                            <option value="Women's Wear">Women's Wear</option>
-                                            <option value="Men's Wear">Men's Wear</option>
-                                            <option value="Accessories">Accessories</option>
-                                            <option value="Shoes">Shoes</option>
+                                        <select class="input-field" id="productCategory" name="category_id" required>
+                                            @forelse ($categories as $category)
+                                                <option value="{{ $category->id }}" {{ (string) old('category_id') === (string) $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                            @empty
+                                                <option value="">No categories available</option>
+                                            @endforelse
                                         </select>
+                                        @if ($categories->isEmpty())
+                                            <p class="field-help" style="color:#b45309;">Create at least one category first, then add products.</p>
+                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <label for="productStatus">Status</label>

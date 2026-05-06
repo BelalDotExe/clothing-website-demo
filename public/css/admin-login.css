@@ -55,6 +55,9 @@ body.admin-login-page {
     inset: 0;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.15));
 }
+.admin-visual__overlay img{
+    max-width: 101%;
+}
 
 .admin-visual__content {
     position: absolute;

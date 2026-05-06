@@ -147,7 +147,9 @@
                     <article class="panel panel--catalog">
                         <div>
                             <div class="catalog-top">
-                                <div class="catalog-img" aria-hidden="true"></div>
+                                <div class="catalog-img">
+                                    <img src="{{asset('images/hero-alt.png')}}" alt="">
+                                </div>
                                 <div class="catalog-overlay"></div>
                                 <h3>Catalog Management</h3>
                             </div>

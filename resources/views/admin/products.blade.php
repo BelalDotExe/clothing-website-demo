@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Products - Aura Admin</title>
+    <title>Products - H&B Clothing Admin</title>
     <link rel="stylesheet" href="{{ asset('css/admin-products.css') }}">
 </head>
 <body class="dashboard-page">
@@ -13,7 +13,7 @@
                 <span class="sidebar-brand__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/></svg>
                 </span>
-                <span class="sidebar-brand__name">Aura</span>
+                <span class="sidebar-brand__name">H&B Clothing</span>
             </div>
 
             <div class="sidebar-nav-wrap">
@@ -227,7 +227,7 @@
                     </div>
 
                     <!-- ============ form begins here ==================== -->
-                    <form id="productEditorForm" method="post" action="{{ route('admin.products.store') }}" data-store-action="{{ route('admin.products.store') }}" data-update-action-template="{{ url('/admin/products/__ID__') }}" enctype="multipart/form-data" novalidate>
+                    <form id="productEditorForm" method="post" action="{{ route('admin.products.store') }}" data-store-action="{{ route('admin.products.store') }}" data-update-action-template="{{ url('/admin/products/PRODUCT-ID-TOKEN') }}" enctype="multipart/form-data" novalidate>
                         @csrf
                         <input type="hidden" id="productFormMethod" name="_method" value="PUT" disabled>
                         <input type="hidden" id="productId" name="product_id">

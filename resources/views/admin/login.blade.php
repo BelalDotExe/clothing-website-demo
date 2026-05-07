@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Login - Aura</title>
+    <title>Admin Login - H&B Clothing</title>
     <link rel="stylesheet" href="{{ asset('css/admin-login.css') }}">
 </head>
 <body class="admin-login-page">
@@ -80,7 +80,7 @@
                 <!--================== form ends here =============== -->
 
                 <footer class="admin-footer-note">
-                    &copy; 2026 Aura Clothing Store. All rights reserved.
+                    &copy; 2026 H&B Clothing Store. All rights reserved.
                 </footer>
             </div>
         </section>

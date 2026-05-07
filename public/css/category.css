@@ -107,8 +107,39 @@ a {
 }
 
 .aura-nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: var(--radius-xl);
     font-weight: 500;
     font-size: 15px;
+    transition: color 0.2s ease;
+}
+
+.aura-nav__link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--primary);
+    border-radius: inherit;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
+    pointer-events: none;
+}
+
+.aura-nav__link:hover,
+.aura-nav__link:focus-visible,
+.aura-nav__link--active {
+    color: var(--primary);
+}
+
+.aura-nav__link:hover::after,
+.aura-nav__link:focus-visible::after,
+.aura-nav__link--active::after {
+    transform: scaleX(1);
 }
 
 .aura-nav__link--active {
@@ -224,29 +255,43 @@ a.aura-icon-btn:hover {
 }
 
 .aura-pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 10px 24px;
     border-radius: var(--radius-xl);
-    border: 1px solid var(--border);
+    border: 1px solid transparent;
     background: var(--card);
     color: var(--foreground);
     font-weight: 500;
     font-size: 14px;
     cursor: pointer;
+    transition: color 0.2s ease;
 }
 
-.aura-pill--sale {
-    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+.aura-pill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--primary);
+    border-radius: inherit;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
+    pointer-events: none;
 }
 
+.aura-pill:hover,
+.aura-pill:focus-visible,
 .aura-pill.is-active {
-    background: var(--primary);
-    color: var(--primary-foreground);
-    border-color: var(--primary);
+    color: var(--primary);
 }
 
-.aura-pill--sale.is-active {
-    background: var(--accent);
-    border-color: var(--accent);
+.aura-pill:hover::after,
+.aura-pill:focus-visible::after,
+.aura-pill.is-active::after {
+    transform: scaleX(1);
 }
 
 .aura-main {
@@ -348,6 +393,15 @@ a.aura-icon-btn:hover {
 .aura-badge--sale {
     background: var(--accent);
     color: #fff;
+}
+
+.aura-badge--low {
+    background: #ffe6e5;
+    color: #d53935;
+    font-weight: 700;
+    letter-spacing: 0;
+    left: auto;
+    right: 12px;
 }
 
 .aura-card__body {

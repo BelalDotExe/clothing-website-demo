@@ -57,7 +57,7 @@ function setEditMode(productData) {
     }
 
     form.action = updateActionTemplate.replace(
-        "__ID__",
+        "PRODUCT-ID-TOKEN",
         encodeURIComponent(productKey)
     );
 

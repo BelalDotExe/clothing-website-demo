@@ -28,4 +28,18 @@ class AdminCategoryController extends Controller
 
         return redirect()->route('admin.categories')->with('ok', 'Category added successfully.');
     }
+
+    public function destroy(Category $category): RedirectResponse
+    {
+        $productCount = $category->products()->count();
+        if ($productCount > 0) {
+            return redirect()
+                ->route('admin.categories')
+                ->with('error', 'Cannot delete category with existing products. Move products first.');
+        }
+
+        $category->delete();
+
+        return redirect()->route('admin.categories')->with('ok', 'Category deleted successfully.');
+    }
 }

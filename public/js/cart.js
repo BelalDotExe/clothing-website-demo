@@ -1,4 +1,4 @@
-const key = "aura_cart";
+const key = "hb_cart";
 const fmt = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 
 const el = {

@@ -3,27 +3,27 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Aura - Shopping Cart</title>
+    <title>H&B Clothing - Shopping Cart</title>
     <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
 </head>
 <body class="cart-page">
     <header class="cart-header">
-        <div class="cart-shell cart-header__inner">
+        <div class="cart-shell cart-header-inner">
             <a class="cart-brand" href="/">
-                <span class="cart-brand__mark">
+                <span class="cart-brand-mark">
                     <svg viewBox="0 0 24 24" width="20" height="20">
                         {{-- logo --}}
                         <path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/>
                     </svg>
                 </span>
-                <span class="cart-brand_name">Aura</span>
+                <span class="cart-brand-name">H&B Clothing</span>
             </a>
 
             <nav class="cart-nav">
-                <a href="/categories/womens-wear">Men's Wear</a>
-                <a href="/categories/womens-wear">Women's Wear</a>
-                <a href="/categories/womens-wear">Shoes</a>
-                <a href="/categories/womens-wear">Accessories</a>
+                <a href="/categories/womens-wear#mens-wear">Mens Wear</a>
+                <a href="/categories/womens-wear#womens-wear">Womens Wear</a>
+                <a href="/categories/womens-wear#accessories">Accessories</a>
+                <a href="/categories/womens-wear#sale">Sale</a>
             </nav>
 
             <div class="cart-head-actions">
@@ -39,7 +39,7 @@
                         <path d="M3 6h18"/>
                         <path d="M16 10a4 4 0 0 1-8 0"/>
                     </svg>
-                    <span class="cart-bag__count" id="cartCount">0</span>
+                    <span class="cart-bag-count" id="cartCount">0</span>
                 </a>
             </div>
         </div>

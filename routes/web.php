@@ -5,10 +5,20 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $trendingProducts = Product::with('categoryRelation')
+        ->orderBy('id')
+        ->take(4)
+        ->get()
+        ->map(function (Product $product) {
+            $product->category = $product->categoryRelation?->name ?? (string) ($product->category ?? '');
+            return $product;
+        });
+
+    return view('welcome', compact('trendingProducts'));
 });
 
 Route::get('/categories/womens-wear', [CategoryController::class, 'womensWear'])->name('categories.index');
@@ -29,5 +39,6 @@ Route::middleware('adm.auth')->prefix('admin')->group(function () {
     Route::delete('/products/{product}', [ProductController::class, 'delete'])->name('admin.products.delete');
     Route::get('/categories', [AdminCategoryController::class, 'index'])->name('admin.categories');
     Route::post('/categories', [AdminCategoryController::class, 'store'])->name('admin.categories.store');
+    Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy'])->name('admin.categories.destroy');
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 });

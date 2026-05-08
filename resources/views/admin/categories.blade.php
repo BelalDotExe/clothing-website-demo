@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Categories - Aura Admin</title>
+    <title>Categories - H&B Clothing Admin</title>
     <link rel="stylesheet" href="{{ asset('css/admin-products.css') }}">
 </head>
 <body class="dashboard-page">
@@ -13,7 +13,7 @@
                 <span class="sidebar-brand__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/></svg>
                 </span>
-                <span class="sidebar-brand__name">Aura</span>
+                <span class="sidebar-brand__name">H&B Clothing</span>
             </div>
 
             <div class="sidebar-nav-wrap">
@@ -65,6 +65,9 @@
                 @if (session('ok'))
                     <p style="color:#16a34a; margin-bottom:12px;">{{ session('ok') }}</p>
                 @endif
+                @if (session('error'))
+                    <p style="color:#b91c1c; margin-bottom:12px;">{{ session('error') }}</p>
+                @endif
 
                 <section class="panel" aria-label="Categories table">
                     <div class="toolbar">
@@ -81,6 +84,7 @@
                                 <tr>
                                     <th>Category Name</th>
                                     <th>Products</th>
+                                    <th class="actions-th">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,10 +92,19 @@
                                     <tr>
                                         <td><span class="cell-meta">{{ $category->name }}</span></td>
                                         <td><strong class="cell-price">{{ $category->products_count }}</strong></td>
+                                        <td class="actions-td">
+                                            <form method="post" action="{{ route('admin.categories.destroy', $category) }}" style="display:inline-block;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn-icon btn-icon-danger" type="submit" onclick="return confirm('Delete this category?')">
+                                                    <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M6 7h12l-1 14H7zm3-3h6l1 2H8z"/></svg>
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="2" class="empty-row">No categories found.</td>
+                                        <td colspan="3" class="empty-row">No categories found.</td>
                                     </tr>
                                 @endforelse
                             </tbody>

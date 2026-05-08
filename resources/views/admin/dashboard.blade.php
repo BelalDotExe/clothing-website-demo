@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard - Aura</title>
+    <title>Admin Dashboard - H&B Clothing</title>
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
 </head>
 <body class="dashboard-page">
@@ -21,7 +21,7 @@
                         <path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/>
                     </svg>
                 </span>
-                <span class="sidebar-brand__name">Aura</span>
+                <span class="sidebar-brand__name">H&B Clothing</span>
             </div>
 
             <div class="sidebar-nav-wrap">
@@ -147,7 +147,9 @@
                     <article class="panel panel--catalog">
                         <div>
                             <div class="catalog-top">
-                                <div class="catalog-img" aria-hidden="true"></div>
+                                <div class="catalog-img">
+                                    <img src="{{asset('images/hero-alt.png')}}" alt="">
+                                </div>
                                 <div class="catalog-overlay"></div>
                                 <h3>Catalog Management</h3>
                             </div>

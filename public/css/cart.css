@@ -42,7 +42,7 @@ body.cart-page {
     z-index: 10;
 }
 
-.cart-header__inner {
+.cart-header-inner {
     height: 100%;
     display: flex;
     align-items: center;
@@ -55,10 +55,10 @@ body.cart-page {
     align-items: center;
     gap: 12px;
     text-decoration: none;
-    color: var(--foreground);
+    color: var(--primary);
 }
 
-.cart-brand__mark {
+.cart-brand-mark {
     width: 40px;
     height: 40px;
     display: inline-flex;
@@ -69,9 +69,9 @@ body.cart-page {
     border-radius: var(--radius-sm);
 }
 
-.cart-brand_name {
-    font-size: 28px;
-    font-weight: 800;
+.cart-brand-name {
+    font-size: 24px;
+    font-weight: 700;
     letter-spacing: -0.02em;
 }
 
@@ -86,6 +86,11 @@ body.cart-page {
     color: var(--foreground);
     font-size: 15px;
     font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.cart-nav a:hover {
+    color: var(--primary);
 }
 
 .cart-head-actions {
@@ -112,7 +117,7 @@ body.cart-page {
     border-radius: 50%;
 }
 
-.cart-bag__count {
+.cart-bag-count {
     position: absolute;
     top: 0;
     right: -2px;

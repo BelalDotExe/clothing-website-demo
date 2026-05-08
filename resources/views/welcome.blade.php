@@ -38,7 +38,7 @@
                     <a class="lp-nav__link" href="#">New Arrivals</a>
                 </nav>
 
-                <div class="lp-actions" aria-label="Quick actions"> 
+                <div class="lp-actions" aria-label="Quick actions">
                     <a class="lp-icon-btn" href="/admin/login" aria-label="Admin">
                         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
                             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>

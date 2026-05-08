@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Login - Aura</title>
+    <title>Admin Login - H&B Clothing</title>
     <link rel="stylesheet" href="{{ asset('css/admin-login.css') }}">
 </head>
 <body class="admin-login-page">
@@ -12,21 +12,13 @@
             <div class="admin-visual__image" aria-hidden="true">
                 <img src="" alt="">
             </div>
-            <div class="admin-visual__overlay"></div>
+            <div class="admin-visual__overlay">
+                <img src="{{asset('images/admin-login.png') }}" alt="">
+            </div>
             <div class="admin-visual__content">
                 <div class="admin-brand">
-                    <span class="admin-brand__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true">
-                            <path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/>
-                        </svg>
-                    </span>
-                    <span class="admin-brand__name">Aura</span>
-                </div>
-                <h2>Manage your entire store from one place.</h2>
-                <p>
-                    Access the admin dashboard to manage inventory, track orders,
-                    and monitor your business performance.
-                </p>
+                    
+
             </div>
         </section>
 
@@ -88,7 +80,7 @@
                 <!--================== form ends here =============== -->
 
                 <footer class="admin-footer-note">
-                    &copy; 2026 Aura Clothing Store. All rights reserved.
+                    &copy; 2026 H&B Clothing Store. All rights reserved.
                 </footer>
             </div>
         </section>

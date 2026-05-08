@@ -10,13 +10,24 @@
     --alert: #d53935;
 }
 
+@keyframes bannerTextIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -38%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
 }
@@ -48,8 +59,7 @@ a {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    font-weight: 700;
 }
 
 .lp-brand__mark {
@@ -64,8 +74,9 @@ a {
 }
 
 .lp-brand__name {
-    color: #5a7024;
-    font-size: 18px;
+    color: var(--brand);
+    font-size: 24px;
+    letter-spacing: -0.02em;
 }
 
 .lp-menu-toggle {
@@ -83,12 +94,17 @@ a {
     display: flex;
     gap: 32px;
     align-items: center;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .lp-nav__link {
-    font-weight: 600;
+    font-weight: 500;
     color: var(--text);
+    transition: color 0.2s ease;
+}
+
+.lp-nav__link:hover {
+    color: var(--brand);
 }
 
 .lp-nav__link--active {
@@ -152,6 +168,69 @@ a {
     background: #d96c06;
     border-radius: 50%;
     border: 2px solid var(--surface);
+}
+
+.banners {
+    margin-top: 18px;
+}
+
+.banner {
+    position: relative;
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #071018 0%, #123c3f 52%, #f0b429 100%);
+    color: #fffdf2;
+    border: 1px solid rgba(240, 180, 41, 0.48);
+    border-radius: 8px;
+    padding: 18px 24px;
+    text-align: center;
+    font-size: clamp(16px, 2.2vw, 22px);
+    font-weight: 800;
+    box-shadow: 0 10px 28px rgba(7, 16, 24, 0.2);
+}
+
+.banner-text {
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 18px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    line-height: 1.25;
+    transform: translate(-50%, -62%);
+    transition:
+        opacity 0.9s ease,
+        transform 0.9s ease,
+        visibility 0s linear 0.9s;
+}
+
+.banner-text.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%);
+    animation: bannerTextIn 0.9s ease both;
+    transition:
+        opacity 0.9s ease,
+        transform 0.9s ease,
+        visibility 0s;
+}
+
+.banner-icon {
+    flex: 0 0 auto;
+    color: #071018;
+    background: #fffdf2;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 900;
 }
 
 .hero {
@@ -333,10 +412,12 @@ a {
     border-radius: 4px;
     height: 34px;
     cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .add-cart-btn:hover {
     background: #f0f0f0;
+    transform: translateY(-1px);
 }
 
 .tag {

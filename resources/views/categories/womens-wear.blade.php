@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Aura - Categories</title>
+    <title>H&B Clothing - Categories</title>
     <link rel="stylesheet" href="{{ asset('css/category.css') }}">
 </head>
 <body class="aura">
@@ -15,17 +15,17 @@
                         <path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/>
                     </svg>
                 </span>
-                <span class="aura-brand__name">Aura</span>
+                <span class="aura-brand__name">H&B Clothing</span>
             </a>
 
-            <button class="aura-menu-toggle" id="auraMenuToggle" type="button" aria-expanded="false" aria-controls="auraNav">
+            <button class="aura-menu-toggle" id="hbMenuToggle" type="button" aria-expanded="false" aria-controls="hbNav">
                 Menu
             </button>
 
-            <nav class="aura-nav" id="auraNav">
+            <nav class="aura-nav" id="hbNav">
                 <a class="aura-nav__link" href="/">Home</a>
-                <a class="aura-nav__link aura-nav__link--active" href="/categories/womens-wear">Categories</a>
-                <a class="aura-nav__link" href="#">New Arrivals</a>
+                <a class="aura-nav__link aura-nav__link--active" href="/categories/womens-wear" data-nav-tab="categories">Categories</a>
+                <a class="aura-nav__link" href="/categories/womens-wear#sale" data-nav-tab="sale">Sale</a>
 
             </nav>
 
@@ -42,13 +42,16 @@
                         <path d="M3 6h18"/>
                         <path d="M16 10a4 4 0 0 1-8 0"/>
                     </svg>
-                    <span class="aura-cart__dot" id="auraCartCount">0</span>
+                    <span class="aura-cart__dot" id="hbCartCount">0</span>
                 </a>
             </div>
         </div>
     </header>
 
     <section class="aura-page-header">
+        @php
+            $defaultCategory = $categories->first()->name ?? 'Sale';
+        @endphp
         <div class="aura-container aura-page-header__inner">
             <nav class="aura-breadcrumbs">
                 <ol>
@@ -56,17 +59,15 @@
                     <li>/</li>
                     <li><a href="/categories/womens-wear">Categories</a></li>
                     <li>/</li>
-                    <li id="activeCategoryLabel">Women's Wear</li>
+                    <li id="activeCategoryLabel">{{ $defaultCategory }}</li>
                 </ol>
             </nav>
-
-            <h1 class="aura-title" id="categoryTitle">Women's Wear</h1>
+            <h1 class="aura-title" id="categoryTitle">{{ $defaultCategory }}</h1>
 
             <div class="aura-filters" id="categoryTabs">
-                <button class="aura-pill is-active" type="button" role="tab" aria-selected="true" data-category="Women's Wear">Women's Wear</button>
-                <button class="aura-pill" type="button" role="tab" aria-selected="false" data-category="Men's Wear">Men's Wear</button>
-                <button class="aura-pill" type="button" role="tab" aria-selected="false" data-category="Shoes">Shoes</button>
-                <button class="aura-pill" type="button" role="tab" aria-selected="false" data-category="Accessories">Accessories</button>
+                @foreach ($categories as $category)
+                    <button class="aura-pill {{ $loop->first ? 'is-active' : '' }}" type="button" role="tab" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-category="{{ $category->name }}">{{ $category->name }}</button>
+                @endforeach
                 <button class="aura-pill aura-pill--sale" type="button" role="tab" aria-selected="false" data-category="Sale" id="sale">Sale</button>
             </div>
         </div>
@@ -91,7 +92,8 @@
     </main>
 
     <script>
-        window.auraProducts = @json($products);
+        window.hbProducts = @json($products);
+        window.hbDefaultCategory = @json($defaultCategory);
     </script>
     <script src="{{ asset('js/category.js') }}"></script>
 </body>

@@ -1,5 +1,5 @@
-const menuToggle = document.getElementById("auraMenuToggle");
-const nav = document.getElementById("auraNav");
+const menuToggle = document.getElementById("hbMenuToggle");
+const nav = document.getElementById("hbNav");
 
 if (menuToggle && nav) {
     menuToggle.addEventListener("click", () => {
@@ -8,8 +8,8 @@ if (menuToggle && nav) {
     });
 }
 
-const dbProducts = Array.isArray(window.auraProducts) ? window.auraProducts : [];
-const cartKey = "aura_cart";
+const dbProducts = Array.isArray(window.hbProducts) ? window.hbProducts : [];
+const cartKey = "hb_cart";
 
 const PLACEHOLDER_IMAGE =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 800'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23d8d8c7'/%3E%3Cstop offset='1' stop-color='%23f4f4e8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='600' height='800' fill='url(%23g)'/%3E%3Cpath d='M162 560l92-118l80 104l40-54l104 128H122z' fill='%23c3c3b1'/%3E%3Ccircle cx='252' cy='296' r='54' fill='%23c9c9b8'/%3E%3C/svg%3E";
@@ -21,11 +21,15 @@ const el = {
     count: document.getElementById("gridCount"),
     sort: document.getElementById("sortBy"),
     grid: document.getElementById("productGrid"),
-    cartCount: document.getElementById("auraCartCount"),
+    cartCount: document.getElementById("hbCartCount"),
+    navCategories: document.querySelector(".aura-nav__link[data-nav-tab='categories']"),
+    navSale: document.querySelector(".aura-nav__link[data-nav-tab='sale']"),
 };
 
 const st = {
-    activeCategory: "Women's Wear",
+    activeCategory: typeof window.hbDefaultCategory === "string" && window.hbDefaultCategory.trim()
+        ? window.hbDefaultCategory.trim()
+        : "Sale",
     sortBy: "newest",
 };
 
@@ -129,11 +133,13 @@ function getImageUrl(product) {
 function productCard(product) {
     const hasDiscount = Boolean(product.on_sale) || Number(product.discount) >= 1;
     const soldOut = Number(product.stock) <= 0;
+    const lowStock = Number(product.stock) > 0 && Number(product.stock) <= 5;
 
     return `
         <article class="aura-card">
             <div class="aura-img">
                 ${hasDiscount ? `<span class="aura-badge aura-badge--sale">Sale</span>` : ""}
+                ${lowStock ? `<span class="aura-badge aura-badge--low">Low Stock</span>` : ""}
                 <img class="aura-img__media" src="${escapeHtml(getImageUrl(product))}" alt="${escapeHtml(product.name)}">
             </div>
             <div class="aura-card__body">
@@ -156,7 +162,16 @@ function getProductsForActiveTab() {
         return dbProducts.filter((product) => Boolean(product.on_sale));
     }
 
-    return dbProducts.filter((product) => product.category === st.activeCategory);
+    const normalizeCategory = (value) =>
+        String(value || "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "");
+
+    const activeCategory = normalizeCategory(st.activeCategory);
+
+    return dbProducts.filter(
+        (product) => normalizeCategory(product.category) === activeCategory
+    );
 }
 
 function sortProducts(products) {
@@ -201,6 +216,13 @@ function setActiveTab(category) {
         pill.classList.toggle("is-active", isSelected);
         pill.setAttribute("aria-selected", isSelected ? "true" : "false");
     });
+    const isSale = category === "Sale";
+    if (el.navSale) {
+        el.navSale.classList.toggle("aura-nav__link--active", isSale);
+    }
+    if (el.navCategories) {
+        el.navCategories.classList.toggle("aura-nav__link--active", !isSale);
+    }
     render();
 }
 
@@ -257,8 +279,25 @@ el.grid.addEventListener("click", (event) => {
     }, 700);
 });
 
-if (window.location.hash.toLowerCase() === "#sale") {
-    setActiveTab("Sale");
+function normalizeCategory(value) {
+    return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "");
+}
+
+const hashCategory = window.location.hash.replace(/^#/, "").trim();
+if (hashCategory) {
+    const wanted = normalizeCategory(decodeURIComponent(hashCategory));
+    const tabMatch = Array.from(el.tabs).find(
+        (pill) => normalizeCategory(pill.dataset.category) === wanted
+    );
+    if (tabMatch?.dataset.category) {
+        setActiveTab(tabMatch.dataset.category);
+    } else if (wanted === "sale") {
+        setActiveTab("Sale");
+    } else {
+        setActiveTab(st.activeCategory);
+    }
 } else {
     setActiveTab(st.activeCategory);
 }

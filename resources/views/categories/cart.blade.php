@@ -80,6 +80,38 @@
         </div>
     </main>
 
+    <footer class="cart-footer">
+        <div class="cart-shell cart-footer-inner">
+            <div class="cart-footer-brand">
+                <a href="/" class="cart-footer-logo">
+                    <span class="cart-footer-mark">
+                        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                            <path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/>
+                        </svg>
+                    </span>
+                    <span>H&B Clothing</span>
+                </a>
+                <p>Bold apparel, easy checkout, and pieces that keep your closet feeling fresh.</p>
+            </div>
+
+            <nav class="cart-footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/categories/womens-wear">Categories</a>
+                <a href="/categories/womens-wear#sale">Sale</a>
+                <a href="/cart">Cart</a>
+            </nav>
+
+            <div class="cart-footer-contact">
+                <p>Need style help?</p>
+                <a href="mailto:support@hbclothing.test">support@hbclothing.test</a>
+            </div>
+        </div>
+        <div class="cart-shell cart-footer-bottom">
+            <span>&copy; {{ date('Y') }} H&B Clothing</span>
+            <span>Wear your true colors.</span>
+        </div>
+    </footer>
+
     <script src="{{ asset('js/cart.js') }}"></script>
 </body>
 </html>

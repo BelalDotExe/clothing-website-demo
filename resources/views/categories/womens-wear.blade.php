@@ -25,7 +25,7 @@
             <nav class="aura-nav" id="hbNav">
                 <a class="aura-nav__link" href="/">Home</a>
                 <a class="aura-nav__link aura-nav__link--active" href="/categories/womens-wear" data-nav-tab="categories">Categories</a>
-                <a class="aura-nav__link" href="/categories/womens-wear#sale" data-nav-tab="sale">Sale</a>
+                <a class="aura-nav__link aura-nav__link--sale" href="/categories/womens-wear#sale" data-nav-tab="sale">Sale</a>
 
             </nav>
 

@@ -3,8 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Dashboard - H&B Clothing</title>
+    <link rel="preload" href="{{ asset('fonts/logo-font.otf') }}" as="font" type="font/otf" crossorigin>
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="dashboard-page">
     @php
@@ -68,26 +71,26 @@
                     <h1>Overview</h1>
                 </div>
                 <div class="topbar-right">
-                    <div class="search-bar" role="search">
-                        <span class="search-bar__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 4a6 6 0 1 1 3.74 10.7l4.78 4.78l-1.42 1.42l-4.78-4.78A6 6 0 0 1 10 4m0 2a4 4 0 1 0 0 8a4 4 0 0 0 0-8"/></svg>
-                        </span>
-                        <span>Search products, orders...</span>
-                    </div>
-
                     <div class="topbar-user-wrap">
-                        <button class="icon-circle" type="button" aria-label="Notifications">
-                            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22M6 18h12v-1l-2-2v-4.5A4 4 0 0 0 12 6a4 4 0 0 0-4 4.5V15l-2 2z"/></svg>
-                            <span class="notif-dot" aria-hidden="true"></span>
-                        </button>
+                        <div class="hb-notif">
+                            <button class="icon-circle hb-notif-btn" type="button" aria-label="Notifications">
+                                <i class="fa-regular fa-bell"></i>
+                                <span class="notif-dot hb-notif-dot"></span>
+                            </button>
+                            <div class="hb-notif-panel" hidden>
+                                <div class="hb-notif-head">
+                                    <strong>Notifications</strong>
+                                    <button class="hb-notif-clear" type="button">Delete All</button>
+                                </div>
+                                <div class="hb-notif-list"></div>
+                            </div>
+                        </div>
                         <div class="divider"></div>
-                        <button class="user-chip" type="button" aria-label="User menu">
-                            <span class="avatar" aria-hidden="true">SA</span>
+                        <button class="user-chip" type="button">
+                            <span class="avatar" ><i class="fa-regular fa-user"></i></span>
                             <span class="user-text">
-                                <small>Store Manager</small>
-                            </span>
-                            <span class="chev" >
-                                <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="m7 10l5 5l5-5z"/></svg>
+                               <strong>{{ auth()->user()->user }}</strong>
+                               <small>Store Admin</small>
                             </span>
                         </button>
                     </div>

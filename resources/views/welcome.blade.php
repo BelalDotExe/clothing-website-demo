@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
+    <link rel="preload" href="{{ asset('fonts/logo-font.otf') }}" as="font" type="font/otf" crossorigin>
+
 
 </head>
 
@@ -24,7 +26,7 @@
                                 d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z" />
                         </svg>
                     </span>
-                    <span class="lp-brand__name">H&B CLOTHING</span>
+                    <span class="lp-brand__name" >H&B Clothing</span>
                 </a>
 
                 <button class="lp-menu-toggle" id="hbMenuToggle" type="button" aria-expanded="false"
@@ -77,8 +79,8 @@
         <main>
             <section class="hero container">
                 <div class="hero-copy" >
-                    <span class="eyebrow">SPRING COLLECTION 2025</span>
-                    <h1 style=" font-family: 'Smooch Sans', sans-serif; font-optical-sizing: auto;margin-top: 20px;" >Wear Your True Colors</h1>
+                    <span class="eyebrow">SPRING COLLECTION 2026</span>
+                    <h1 style="margin-top: 20px;" >Wear Your True Colors</h1>
                     <p style="margin-top: 40px;">
                         Discover our latest collection of vibrant modern apparel
                         designed to make a statement. Bold silhouettes meet bold palettes.
@@ -86,7 +88,7 @@
                     <a class="cta-btn" href="/categories/womens-wear">Shop the Collection</a>
                 </div>
                 <div class="hero-image">
-                    <img src="{{ asset('images/hero.jpg') }}" alt="Spring Collection 2025" loading="eager">
+                    <img src="{{ asset('images/hero-alt.png') }}" alt="Spring Collection 2025" loading="eager">
                 </div>
             </section>
 

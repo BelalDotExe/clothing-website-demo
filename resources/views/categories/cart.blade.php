@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>H&B Clothing - Shopping Cart</title>
+    <link rel="preload" href="{{ asset('fonts/logo-font.otf') }}" as="font" type="font/otf" crossorigin>
     <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
 </head>
 <body class="cart-page">

@@ -1,5 +1,14 @@
+@font-face {
+    font-family: "logofont";
+    src: url("/fonts/logo-font.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --primary: #788504;
+    --brand-dark: #4f6419;
     --primary-foreground: #ffffff;
     --secondary: #ffffff;
     --secondary-foreground: #2b2b2b;
@@ -70,9 +79,12 @@ body.cart-page {
 }
 
 .cart-brand-name {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    color: var(--brand-dark);
+    margin-top: 7px;
+    font-size: 37px;
+    letter-spacing: +0.02em;
+    font-family: 'logofont',sans-serif;
+    font-weight: 600;
 }
 
 .cart-nav {
@@ -362,6 +374,7 @@ body.cart-page {
     color: #f5f5e6;
     font-size: 22px;
     font-weight: 800;
+    font-family: "logofont", sans-serif;
     text-decoration: none;
 }
 

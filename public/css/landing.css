@@ -10,6 +10,15 @@
     --alert: #d53935;
 }
 
+@font-face {
+    font-family: "logofont";
+    src: url("/fonts/logo-font.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 @keyframes bannerTextIn {
     from {
         opacity: 0;
@@ -24,6 +33,7 @@
 * {
     box-sizing: border-box;
 }
+
 
 body {
     margin: 0;
@@ -74,9 +84,11 @@ a {
 }
 
 .lp-brand__name {
-    color: var(--brand);
-    font-size: 24px;
-    letter-spacing: -0.02em;
+    color: var(--brand-dark);
+    margin-top: 7px;
+    font-size: 37px;
+    letter-spacing: +0.05em;
+    font-family: 'logofont',sans-serif;
 }
 
 .lp-menu-toggle {
@@ -309,6 +321,8 @@ a {
     max-width: 450px;
     line-height: 1.6;
     color: var(--muted);
+    /* font-family: 'textfont',sans-serif; */
+    /* font-size: 20px; */
 }
 
 .cta-btn {
@@ -510,6 +524,8 @@ a {
     gap: 12px;
     font-size: 22px;
     font-weight: 800;
+    font-family: "logofont", sans-serif;
+    letter-spacing: +0.05em;
 }
 
 .hb-footer__mark {
@@ -522,6 +538,7 @@ a {
     color: #637a1f;
     border-radius: 6px;
 }
+
 
 .hb-footer__brand p,
 .hb-footer__contact p {

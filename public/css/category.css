@@ -3,6 +3,7 @@
     --primary-foreground: #ffffff;
     --secondary: #ffffff;
     --secondary-foreground: #2b2b2b;
+    --brand-dark: #4f6419;
     --background: #f5f5e6;
     --foreground: #2b2b2b;
     --accent: #d96c06;
@@ -18,6 +19,15 @@
     --radius-lg: 12px;
     --radius-xl: 24px;
 }
+
+@font-face {
+    font-family: "logofont";
+    src: url("/fonts/logo-font.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 
 * {
     box-sizing: border-box;
@@ -86,8 +96,11 @@ a {
 }
 
 .aura-brand__name {
-    font-size: 24px;
-    letter-spacing: -0.02em;
+    color: var(--brand-dark);
+    margin-top: 7px;
+    font-size: 37px;
+    letter-spacing: +0.05em;
+    font-family: 'logofont',sans-serif;
 }
 
 .aura-menu-toggle {
@@ -553,6 +566,8 @@ a.aura-icon-btn:hover {
     gap: 12px;
     font-size: 22px;
     font-weight: 800;
+    font-family: "logofont", sans-serif;
+    letter-spacing: +0.05em;
 }
 
 .aura-footer__mark {

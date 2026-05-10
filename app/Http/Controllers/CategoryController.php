@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendOrderConfirmationEmail;
 use App\Models\Category;
+use App\Models\HbNotif;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -115,19 +115,7 @@ class CategoryController extends Controller
 
                 $toEmail = (string) config('mail.from.address');
                 if ($toEmail !== '') {
-                    try {
-                        Mail::raw(
-                            "Your order has been placed successfully.\n\nOrder Number: {$order->order_number}\nItems: {$order->total_items}\nTotal: $".number_format((float) $order->total_amount, 2)."\nDate: ".optional($order->ordered_at)->toDateTimeString(),
-                            function ($message) use ($toEmail, $order): void {
-                                $message->to($toEmail)->subject('Order Confirmation - '.$order->order_number);
-                            }
-                        );
-                    } catch (\Throwable $mailError) {
-                        Log::warning('Order confirmation email failed to send.', [
-                            'order_id' => $order->id,
-                            'error' => $mailError->getMessage(),
-                        ]);
-                    }
+                    SendOrderConfirmationEmail::dispatch($order->id, $toEmail);
                 }
 
                 $orderPayload = [
@@ -137,6 +125,18 @@ class CategoryController extends Controller
                     'total_items' => $order->total_items,
                     'total_amount' => (float) $order->total_amount,
                 ];
+
+                HbNotif::create([
+                    'title' => 'New checkout',
+                    'msg' => 'Order '.$order->order_number.' placed ($'.number_format((float) $order->total_amount, 2).').',
+                    'meta' => [
+                        'order_id' => $order->id,
+                        'order_number' => $order->order_number,
+                        'items' => (int) $order->total_items,
+                        'total' => (float) $order->total_amount,
+                    ],
+                    'sent_at' => now(),
+                ]);
             }
 
             return response()->json([

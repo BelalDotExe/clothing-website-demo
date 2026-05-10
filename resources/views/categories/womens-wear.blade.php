@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>H&B Clothing - Categories</title>
     <link rel="stylesheet" href="{{ asset('css/category.css') }}">
+    <link rel="preload" href="{{ asset('fonts/logo-font.otf') }}" as="font" type="font/otf" crossorigin>
+
 </head>
 <body class="aura">
     <header class="aura-header">

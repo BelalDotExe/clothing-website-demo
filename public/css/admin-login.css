@@ -1,5 +1,6 @@
 :root {
     --primary: #788504;
+    --brand-dark: #4f6419;
     --primary-foreground: #ffffff;
     --secondary: #ffffff;
     --secondary-foreground: #2b2b2b;
@@ -313,4 +314,3 @@ body.admin-login-page {
         font-size: 16px;
     }
 }
-

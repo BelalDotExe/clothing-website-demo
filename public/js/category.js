@@ -285,12 +285,18 @@ function normalizeCategory(value) {
         .replace(/[^a-z0-9]/g, "");
 }
 
-const hashCategory = window.location.hash.replace(/^#/, "").trim();
-if (hashCategory) {
+function syncFromHash() {
+    const hashCategory = window.location.hash.replace(/^#/, "").trim();
+    if (!hashCategory) {
+        setActiveTab(st.activeCategory);
+        return;
+    }
+
     const wanted = normalizeCategory(decodeURIComponent(hashCategory));
     const tabMatch = Array.from(el.tabs).find(
         (pill) => normalizeCategory(pill.dataset.category) === wanted
     );
+
     if (tabMatch?.dataset.category) {
         setActiveTab(tabMatch.dataset.category);
     } else if (wanted === "sale") {
@@ -298,8 +304,9 @@ if (hashCategory) {
     } else {
         setActiveTab(st.activeCategory);
     }
-} else {
-    setActiveTab(st.activeCategory);
 }
+
+window.addEventListener("hashchange", syncFromHash);
+syncFromHash();
 
 updateCartCount();

@@ -111,11 +111,15 @@ a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-height: 38px;
     padding: 8px 16px;
     border-radius: var(--radius-xl);
     font-weight: 500;
     font-size: 15px;
-    transition: color 0.2s ease;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .aura-nav__link::after {
@@ -124,26 +128,43 @@ a {
     inset: 0;
     border: 1px solid var(--primary);
     border-radius: inherit;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.25s ease;
+    opacity: 0;
+    transform: scaleX(0.72);
+    transition:
+        opacity 0.2s ease,
+        transform 0.25s ease;
     pointer-events: none;
 }
 
 .aura-nav__link:hover,
-.aura-nav__link:focus-visible,
 .aura-nav__link--active {
+    background: #eff3e3;
     color: var(--primary);
+    transform: translateY(-1px);
 }
 
 .aura-nav__link:hover::after,
-.aura-nav__link:focus-visible::after,
 .aura-nav__link--active::after {
+    opacity: 1;
     transform: scaleX(1);
 }
 
-.aura-nav__link--active {
-    color: var(--primary);
+.aura-nav__link--sale {
+    color: #c5534d;
+}
+
+.aura-nav__link--sale::after {
+    border-color: #c5534d;
+}
+
+.aura-nav__link--sale:hover{
+    background: #ffe6e5;
+    color: #c5534d;
+}
+
+.aura-nav__link--sale.aura-nav__link--active {
+    background: #ffe6e5;
+    color: #c5534d;
 }
 
 .aura-actions {
@@ -174,16 +195,6 @@ a {
 
 a.aura-icon-btn:hover {
     background: var(--muted);
-}
-
-.aura-icon-btn:focus-visible,
-.aura-menu-toggle:focus-visible,
-.aura-nav__link:focus-visible,
-.aura-pill:focus-visible,
-.aura-btn:focus-visible,
-.aura-select:focus-visible {
-    outline: 3px solid color-mix(in srgb, var(--primary) 35%, transparent);
-    outline-offset: 3px;
 }
 
 .aura-cart {
@@ -267,7 +278,10 @@ a.aura-icon-btn:hover {
     font-weight: 500;
     font-size: 14px;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .aura-pill::after {
@@ -276,22 +290,39 @@ a.aura-icon-btn:hover {
     inset: 0;
     border: 1px solid var(--primary);
     border-radius: inherit;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.25s ease;
+    opacity: 0;
+    transform: scaleX(0.72);
+    transition:
+        opacity 0.2s ease,
+        transform 0.25s ease;
     pointer-events: none;
 }
 
 .aura-pill:hover,
-.aura-pill:focus-visible,
 .aura-pill.is-active {
+    background: #eff3e3;
     color: var(--primary);
+    transform: translateY(-1px);
 }
 
 .aura-pill:hover::after,
-.aura-pill:focus-visible::after,
 .aura-pill.is-active::after {
+    opacity: 1;
     transform: scaleX(1);
+}
+
+.aura-pill--sale {
+    color: #c5534d;
+}
+
+.aura-pill--sale::after {
+    border-color: #c5534d;
+}
+
+.aura-pill--sale:hover,
+.aura-pill--sale.is-active {
+    background: #ffe6e5;
+    color: #c5534d;
 }
 
 .aura-main {

@@ -57,6 +57,23 @@
             </div>
         </header>
 
+        <section class="banners container" aria-label="Store promotions">
+            <div class="banner" id="promo-banner" aria-live="polite">
+                <div class="banner-text active" aria-hidden="false">
+                    <span class="banner-icon">NEW</span>
+                    New Arrivals: Fresh Styles Just In
+                </div>
+                <div class="banner-text" aria-hidden="true">
+                    <span class="banner-icon">SALE</span>
+                    50% Off on Every Product
+                </div>
+                <div class="banner-text" aria-hidden="true">
+                    <span class="banner-icon">PERKS</span>
+                    Exclusive: Members Get Free Returns
+                </div>
+            </div>
+        </section>
+
         <main>
             <section class="hero container">
                 <div class="hero-copy" >
@@ -139,6 +156,38 @@
                 </div>
             </section>
         </main>
+
+        <footer class="hb-footer">
+            <div class="container hb-footer__inner">
+                <div class="hb-footer__brand">
+                    <a href="/" class="hb-footer__logo" aria-label="H&B Clothing home">
+                        <span class="hb-footer__mark">
+                            <svg viewBox="0 0 24 24" width="20" height="20" role="img" aria-hidden="true">
+                                <path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z" />
+                            </svg>
+                        </span>
+                        <span>H&B Clothing</span>
+                    </a>
+                    <p>Bold everyday pieces, fresh seasonal drops, and simple styling made for color-forward wardrobes.</p>
+                </div>
+
+                <nav class="hb-footer__nav" aria-label="Footer navigation">
+                    <a href="/">Home</a>
+                    <a href="/categories/womens-wear">Categories</a>
+                    <a href="/categories/womens-wear#sale">Sale</a>
+                    <a href="/cart">Cart</a>
+                </nav>
+
+                <div class="hb-footer__contact">
+                    <p>Need style help?</p>
+                    <a href="mailto:support@hbclothing.test">support@hbclothing.test</a>
+                </div>
+            </div>
+            <div class="container hb-footer__bottom">
+                <span>&copy; {{ date('Y') }} H&B Clothing</span>
+                <span>Wear your true colors.</span>
+            </div>
+        </footer>
     </div>
 
     <script src="{{ asset('js/landing.js') }}"></script>

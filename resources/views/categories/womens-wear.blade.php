@@ -91,6 +91,38 @@
         <section class="aura-grid" id="productGrid"></section>
     </main>
 
+    <footer class="aura-footer">
+        <div class="aura-container aura-footer__inner">
+            <div class="aura-footer__brand">
+                <a href="/" class="aura-footer__logo">
+                    <span class="aura-footer__mark">
+                        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                            <path fill="currentColor" d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1h-2V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v1H6V7zm0 3h12l1.2 10.2A2 2 0 0 1 17.2 22H6.8a2 2 0 0 1-1.99-1.8L6 10zm4 2a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-4z"/>
+                        </svg>
+                    </span>
+                    <span>H&B Clothing</span>
+                </a>
+                <p>Curated color, clean silhouettes, and easy pieces for every day of the week.</p>
+            </div>
+
+            <nav class="aura-footer__nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/categories/womens-wear">Categories</a>
+                <a href="/categories/womens-wear#sale">Sale</a>
+                <a href="/cart">Cart</a>
+            </nav>
+
+            <div class="aura-footer__contact">
+                <p>Need style help?</p>
+                <a href="mailto:support@hbclothing.test">support@hbclothing.test</a>
+            </div>
+        </div>
+        <div class="aura-container aura-footer__bottom">
+            <span>&copy; {{ date('Y') }} H&B Clothing</span>
+            <span>Wear your true colors.</span>
+        </div>
+    </footer>
+
     <script>
         window.hbProducts = @json($products);
         window.hbDefaultCategory = @json($defaultCategory);
